@@ -8,3 +8,39 @@
 body {
     font-family: Roboto, sans-serif;
 }
+
+:root {
+    --color-primary-400:#131A22;
+    --color-accent: #F6B17A;
+
+    --color-blue-regular: #1aa1b9;
+    --color-blue-light: #2aadc1;
+    --color-blue-lighter: #6bbfff;
+    --color-blue-dark: #0d6785;
+    --color-dark: #454545;
+    --color-grey: #393f43;
+    --color-grey-light: #eef0f1;
+    --color-grey-lighter: #545a5e;
+    --color-grey-dark: #2f3539;
+    --color-grey-blue: #262b2f;
+    --color-white: #ffffff;
+    --color-black: black;
+
+    --fs-300: 0.8125rem;
+    --fs-400: 0.875rem;
+    --fs-500: 1rem;
+    --fs-600: 1.875rem;
+    --fs-700: 2.5rem;
+    --fs-3600: 2.25rem;
+
+    --hero-height: 600px;
+    --section-wrapper-margin: 200px;
+}
+
+/* 
+    CSS-COMPONENTS 
+------------------
+*/
+a {
+    text-decoration: none;
+}
