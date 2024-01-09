@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Rosario:wght@500;600;700&display=swap');
+
+/* 
+    BANNERS
+------------------
+*/
+.banners {
+    padding-block: 80px;
+}
+.banners .container {
+    width: 80%;
+    margin: auto;
+}
+
+.main-banner {
+    width: 60%;
+    position: relative;
+}
+.main-banner .main-banner__img{
+    width: 100%;
+    border-radius: 6px;
+}
+.main-banner__content {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+
+    color: var(--color-primary-300);
+}
+.main-banner__content .secondary-title {
+    color: var(--color-orange);
+    letter-spacing: 0.2px;
+}
+.main-banner__content .main-title {
+    font-family: "Rosario", sans-serif;
+    font-weight: 700;
+    font-size: var(--fs-800);
+
+    padding-block: 20px;
+}
+.main-banner__content .desc {
+    padding-bottom: 20px;
+    line-height: 1.5;
+}
+.main-banner__content .button:hover{
+    color: var(--color-primary-300);
+    background-color: var(--color-accent);
+}
+
+
+/* 
+    SERVICES
+------------------
+*/
+
+.services {
+    background-color: var(--color-grey-light);
+}
+
+.services .container {
+    display:flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+    padding-block: 32px;
+}
+
+.service {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    line-height: 1.8;
+}
+.service__img {
+    width: 42px;
+}
+.services__title {
+    font-weight: 600;
+}
+.services__text {
+    font-size: var(--fs-400);
+    opacity: 75%;
+}

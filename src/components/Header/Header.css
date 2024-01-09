@@ -7,18 +7,17 @@
     background-color: var(--color-primary-400);
     font-size: var(--fs-300);
 }
-
 .header-top__wrapper {
+    width:90%;
     display: flex;
-    width: 90%;
     margin: auto;
     align-items: center;
     justify-content: space-between;
     padding-block: 1rem;
 }
-
 .header-top__title {
     font-size: var(--fs-700);
+    font-weight: 500;
 }
 
 .header-top__title--link {
@@ -106,6 +105,7 @@
     width: 100%;
     top: calc(100% + 6px);
     left: 0;
+    z-index: 1000;
 
     background-color: var(--color-white);
     border-bottom-right-radius: 3px;
