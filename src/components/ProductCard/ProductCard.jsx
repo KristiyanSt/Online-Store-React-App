@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 function ProductCard(props) {
     return <Link className="product-card">
             <div className="image__wrapper">
-                <img className="product-card__image" src="/assets/images/apple-watch.jpg" alt="" />
+                <img className="product-card__image" src="/assets/images/apple-watch.jpg" alt="watch" />
+                <img className="product-card__image-secondary" src="/assets/images/watch-secondary.jpg" alt="watch-secondary" />
             </div>
             <div className="product__details">
                 <p className="product__brand">Apple</p>

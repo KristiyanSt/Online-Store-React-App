@@ -115,13 +115,8 @@ function Home(props) {
                         </h4>
                     </div>
                     <div className="products__wrapper">
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                    </div>
+                        {Array.from({length: 6}).map(x => <ProductCard/>)}
+                    </div> 
                 </div>
             </section>
         </>
