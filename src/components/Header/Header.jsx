@@ -26,7 +26,7 @@ function Header(props) {
                     <section className="header-top">
                         <div className="header-top__wrapper">
                             <h1 className="header-top__title">
-                                <Link class="header-top__title--link">Storish</Link>
+                                <Link className="header-top__title--link">Storish</Link>
                             </h1>
                             <div className="header-top__search input-group">
                                 <input className="header-top__search--input input" type="text" placeholder="Search products.." />

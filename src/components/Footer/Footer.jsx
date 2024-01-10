@@ -8,13 +8,13 @@ function Footer(props) {
             <footer className="footer">
                 <section className="footer-top">
                     <div className="footer__wrapper">
-                        <div class="footer-top__label">
+                        <div className="footer-top__label">
                             <img src="/assets/images/glowing-star-svgrepo-com.svg" alt="star" />
                             <p>Subscribe For Our Newsletter</p>
                         </div>
                         <div className="footer-top__subscribe input-group">
                             <input className="footer-top__subscribe input" type="text" placeholder="Enter your email.." />
-                            <span class="footer-top__button input-button">Subscribe</span>
+                            <span className="footer-top__button input-button">Subscribe</span>
                         </div>
                     </div>
                 </section>
