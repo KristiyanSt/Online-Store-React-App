@@ -46,21 +46,21 @@
     FOOTER-BOTTOM
 -------------------------
 */
+.footer-bottom {
+    background-color: var(--color-primary-400);
+}
 .footer-bottom__text {
     text-align: center;
 }
-.footer-bottom,
-.footer-middle {
-    border-top: 1px solid var(--color-primary-100)
-}
-
 
 
 /* 
     FOOTER-MIDDLE
 ------------------------
 */
-
+.footer-middle {
+    border-top: 1px solid var(--color-primary-100)
+}
 .footer-middle .footer-middle__contents {
     display: flex;
     justify-content: space-between;

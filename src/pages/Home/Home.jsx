@@ -1,14 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 
+import bannerImage1 from './banner-bg-images/banner-image-1.jpg';
+import bannerImage2 from './banner-bg-images/banner-image-2.jpg';
+import bannerImage3 from './banner-bg-images/banner-image-3.jpg';
+import bannerImage4 from './banner-bg-images/banner-image-4.jpg';
+const bannerImages = [bannerImage1, bannerImage2, bannerImage3,bannerImage4];
+
 function Home(props) {
+    const [slide, setSlide] = useState(0);
+
+    const onLeftClick = () => {
+        if (slide == 0) {
+            return setSlide(bannerImages.length - 1);
+        }
+        return setSlide(prevSlide => prevSlide - 1);
+    }
+    const onRightClick = () => {
+        if (slide == bannerImages.length - 1) {
+            setSlide(0);
+        } else {
+            setSlide(prevSlide => prevSlide + 1);
+        }
+    }
+
+    useEffect(() =>{
+        const interval = setInterval(onRightClick, 8000);
+        return () => clearInterval(interval);
+    },[slide]);
+
     return (
         <>
             <section className="banners">
                 <div className="container">
-                    <div className="main-banner">
+                    <div className="banners__slider">
+                        {bannerImages.map(imageSrc => {
+                            return <div
+                                className="banner__wrapper"
+                                style={{
+                                    translate: `${(slide * -100)}%`,
+                                    backgroundImage: `url(${imageSrc})`
+                                }}
+                                key={imageSrc}
+                            >
+                                <div className="bg-shade"></div>
+                            </div>
+                        })}
+                    </div>
+                    <button className="slider-button button-left" onClick={onLeftClick}>
+                        <img src="/assets/images/left-arrow.svg" alt="arrow-left" />
+                    </button>
+                    <button className="slider-button button-right" onClick={onRightClick}>
+                        <img src="/assets/images/right-arrow.svg" alt="arrow-right" />
+                    </button>
+                    {/* <section className="special-collection collection">
+                        <div className="container">
+                            <div className="header">
+                                <h4 className="collection__title">
+                                    Special Products
+                                </h4>
+                            </div>
+                            <div className="products__wrapper">
+                                {Array.from({ length: 6 }).map(x => <ProductCard />)}
+                            </div>
+                        </div>
+                    </section> */}
+                    {/* <div className="main-banner">
                         <div className="img__wrapper">
                             <img className="main-banner__img" src="assets/images/woman-banner.jpg" alt="main banner" />
                         </div>
@@ -18,46 +77,7 @@ function Home(props) {
                             <p className="desc">From $349,99 or $14,59/mo. <br /> for 24 mo.</p>
                             <Link className="button" >BUY NOW</Link>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section className="services">
-                <div className="container">
-                    <div className="services__shipping service">
-                        <img className="service__img" src="/assets/images/truck-delivery.svg" alt="delivery-truck" />
-                        <div className="text-container">
-                            <p className="services__title">Free Shipping</p>
-                            <p className="services__text">From all orders over $100</p>
-                        </div>
-                    </div>
-                    <div className="services__shipping service">
-                        <img className="service__img" src="/assets/images/gift.svg" alt="gift" />
-                        <div className="text-container">
-                            <p className="services__title">Daily Surprise Offers</p>
-                            <p className="services__text">Save up to 20% off</p>
-                        </div>
-                    </div>
-                    <div className="services__shipping service">
-                        <img className="service__img" src="/assets/images/support.svg" alt="delivery-truck" />
-                        <div className="text-container">
-                            <p className="services__title">Free Shipping</p>
-                            <p className="services__text">From all orders over $100</p>
-                        </div>
-                    </div>
-                    <div className="services__shipping service">
-                        <img className="service__img" src="/assets/images/prices.svg" alt="delivery-truck" />
-                        <div className="text-container">
-                            <p className="services__title">Affordable Prices</p>
-                            <p className="services__text">Get Factory Direct Price</p>
-                        </div>
-                    </div>
-                    <div className="services__shipping service">
-                        <img className="service__img" src="/assets/images/bank-card.svg" alt="delivery-truck" />
-                        <div className="text-container">
-                            <p className="services__title">Secure Payments</p>
-                            <p className="services__text">100% Protected Payments</p>
-                        </div>
-                    </div>
+                    </div> */}
                 </div>
             </section>
             <section className="categories">
@@ -107,18 +127,70 @@ function Home(props) {
                     </div>
                 </div>
             </section>
-            <section className="featured-collection">
+            <section className="services">
+                <div className="container">
+                    <div className="services__shipping service">
+                        <img className="service__img" src="/assets/images/truck-delivery.svg" alt="delivery-truck" />
+                        <div className="text-container">
+                            <p className="services__title">Free Shipping</p>
+                            <p className="services__text">From all orders over $100</p>
+                        </div>
+                    </div>
+                    <div className="services__shipping service">
+                        <img className="service__img" src="/assets/images/gift.svg" alt="gift" />
+                        <div className="text-container">
+                            <p className="services__title">Daily Surprise Offers</p>
+                            <p className="services__text">Save up to 20% off</p>
+                        </div>
+                    </div>
+                    <div className="services__shipping service">
+                        <img className="service__img" src="/assets/images/support.svg" alt="delivery-truck" />
+                        <div className="text-container">
+                            <p className="services__title">Free Shipping</p>
+                            <p className="services__text">From all orders over $100</p>
+                        </div>
+                    </div>
+                    <div className="services__shipping service">
+                        <img className="service__img" src="/assets/images/prices.svg" alt="delivery-truck" />
+                        <div className="text-container">
+                            <p className="services__title">Affordable Prices</p>
+                            <p className="services__text">Get Factory Direct Price</p>
+                        </div>
+                    </div>
+                    <div className="services__shipping service">
+                        <img className="service__img" src="/assets/images/bank-card.svg" alt="delivery-truck" />
+                        <div className="text-container">
+                            <p className="services__title">Secure Payments</p>
+                            <p className="services__text">100% Protected Payments</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className="featured-collection collection">
                 <div className="container">
                     <div className="header">
-                        <h4 className="featured-collection__title">
-                            Featured Collection
+                        <h4 className="collection__title">
+                            Featured Collection.
+                            <span class="collection__title-shade" >Unparalleled choices for rich, high-quality experience.</span>
                         </h4>
                     </div>
                     <div className="products__wrapper">
-                        {Array.from({length: 6}).map(x => <ProductCard/>)}
-                    </div> 
+                        {Array.from({ length: 5 }).map(x => <ProductCard />)}
+                    </div>
                 </div>
             </section>
+            {/* <section className="special-collection collection">
+                <div className="container">
+                    <div className="header">
+                        <h4 className="collection__title">
+                            Special Products
+                        </h4>
+                    </div>
+                    <div className="products__wrapper">
+                        {Array.from({ length: 6 }).map(x => <ProductCard />)}
+                    </div>
+                </div>
+            </section> */}
         </>
     );
 }

@@ -6,7 +6,9 @@ import Footer from './Footer/Footer.jsx';
 function Layout(props) {
     return <>
         <Header />
-        <Outlet />
+        <main className="main">
+            <Outlet />
+        </main>
         <Footer />
     </>
 }
