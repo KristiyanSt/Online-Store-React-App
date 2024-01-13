@@ -80,10 +80,10 @@ function Header(props) {
                                     <nav className="header-bottom__nav">
                                         <ul className="header-bottom__links">
                                             <li>
-                                                <NavLink className="header-bottom__link">Home</NavLink>
+                                                <NavLink to="/" className="header-bottom__link">Home</NavLink>
                                             </li>
                                             <li>
-                                                <NavLink className="header-bottom__link">Our Store</NavLink>
+                                                <NavLink to="/store" className="header-bottom__link">Store</NavLink>
                                             </li>
                                             <li>
                                                 <NavLink className="header-bottom__link">Blogs</NavLink>

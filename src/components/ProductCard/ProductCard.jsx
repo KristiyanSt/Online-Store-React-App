@@ -3,7 +3,8 @@ import './ProductCard.css';
 import { Link } from 'react-router-dom';
 
 function ProductCard(props) {
-    return <Link className="product-card">
+    return <div className="product-card">
+        <Link>
             <div className="image__wrapper">
                 <img className="product-card__image" src="/assets/images/apple-watch.jpg" alt="watch" />
                 <img className="product-card__image-secondary" src="/assets/images/watch-secondary.jpg" alt="watch-secondary" />
@@ -19,7 +20,8 @@ function ProductCard(props) {
                 <Link className="actions__link"><img src="/assets/images/heart.png" alt="heart" /></Link>
                 <Link className="actions__link"><img src="/assets/images/compare.png" alt="compare" /></Link>
             </div>
-    </Link>
+        </Link>
+    </div>
 }
 
 export default ProductCard;

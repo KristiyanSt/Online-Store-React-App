@@ -7,7 +7,7 @@ import bannerImage1 from './banner-bg-images/banner-image-1.jpg';
 import bannerImage2 from './banner-bg-images/banner-image-2.jpg';
 import bannerImage3 from './banner-bg-images/banner-image-3.jpg';
 import bannerImage4 from './banner-bg-images/banner-image-4.jpg';
-const bannerImages = [bannerImage1, bannerImage2, bannerImage3,bannerImage4];
+const bannerImages = [bannerImage1, bannerImage2, bannerImage3, bannerImage4];
 
 function Home(props) {
     const [slide, setSlide] = useState(0);
@@ -20,16 +20,16 @@ function Home(props) {
     }
     const onRightClick = () => {
         if (slide == bannerImages.length - 1) {
-            setSlide(0);
-        } else {
-            setSlide(prevSlide => prevSlide + 1);
+            return setSlide(0);
         }
+        return setSlide(prevSlide => prevSlide + 1);
+
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         const interval = setInterval(onRightClick, 8000);
         return () => clearInterval(interval);
-    },[slide]);
+    }, [slide]);
 
     return (
         <>
@@ -55,18 +55,6 @@ function Home(props) {
                     <button className="slider-button button-right" onClick={onRightClick}>
                         <img src="/assets/images/right-arrow.svg" alt="arrow-right" />
                     </button>
-                    {/* <section className="special-collection collection">
-                        <div className="container">
-                            <div className="header">
-                                <h4 className="collection__title">
-                                    Special Products
-                                </h4>
-                            </div>
-                            <div className="products__wrapper">
-                                {Array.from({ length: 6 }).map(x => <ProductCard />)}
-                            </div>
-                        </div>
-                    </section> */}
                     {/* <div className="main-banner">
                         <div className="img__wrapper">
                             <img className="main-banner__img" src="assets/images/woman-banner.jpg" alt="main banner" />
@@ -171,26 +159,42 @@ function Home(props) {
                     <div className="header">
                         <h4 className="collection__title">
                             Featured Collection.
-                            <span class="collection__title-shade" >Unparalleled choices for rich, high-quality experience.</span>
+                            <span className="collection__title-shade" >Unparalleled choices for rich, high-quality experience.</span>
                         </h4>
                     </div>
                     <div className="products__wrapper">
-                        {Array.from({ length: 5 }).map(x => <ProductCard />)}
+                        {Array.from({ length: 5 }).map((x, index) => <ProductCard key={index}/>)}
                     </div>
                 </div>
             </section>
-            {/* <section className="special-collection collection">
+            <section className="latest-collection collection">
                 <div className="container">
                     <div className="header">
                         <h4 className="collection__title">
-                            Special Products
+                        The latest.
+                            <span className="collection__title-shade" >Take a look at what’s new, right now.</span>
                         </h4>
                     </div>
-                    <div className="products__wrapper">
-                        {Array.from({ length: 6 }).map(x => <ProductCard />)}
+                    <div className="latest__wrapper">
+                        <div className="latest-card">
+                            <img className="latest-card__img" src="/assets/images/latest-card-img-2.jpg" alt="latest-card" />
+                            <div className="latest-card__content">
+                                <h5 className="latest-card__title">In with the new.</h5>
+                                <p className="latest-card__desc">Discover fresh new colors for your favorite accessories.</p>
+                            </div>
+                        </div>
+                        <div className="latest-card">
+                            <img className="latest-card__img" src="/assets/images/latest-card-img-2.jpg" alt="latest-card" />
+                        </div>
+                        <div className="latest-card">
+                            <img className="latest-card__img" src="/assets/images/latest-card-img-2.jpg" alt="latest-card" />
+                        </div>
+                        <div className="latest-card">
+                            <img className="latest-card__img" src="/assets/images/latest-card-img-2.jpg" alt="latest-card" />
+                        </div>
                     </div>
                 </div>
-            </section> */}
+            </section>
         </>
     );
 }

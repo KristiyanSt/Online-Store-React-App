@@ -11,6 +11,7 @@
 }
 .product-card:hover {
     scale: 1.02;
+    box-shadow: 2px 4px 16px rgba(0,0,0,.16);
 }
 .image__wrapper {
     height: 265px;
@@ -32,6 +33,9 @@
 .product-card:hover .product-card__image-secondary {
     display:inline-block;
     width: 100%;
+}
+.product__details {
+    color:var(--color-primary-400);
 }
 .product__title {
     margin-bottom:10px;

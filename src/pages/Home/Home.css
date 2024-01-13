@@ -5,7 +5,7 @@
 ------------------
 */
 .banners {
-    background-color: var(--color-grey-200)
+    background-color: var(--color-grey-200);
 }
 .banners .container {
     width: 95%;
@@ -186,6 +186,14 @@
     COLLECTIONS
 ---------------------------
 */
+.collection {
+    background-color: var(--color-grey-200);
+    padding-bottom: 32px
+}
+.collection .container {
+    width:90%;
+    margin: auto;
+}
 .collection .header {
     margin-bottom: 32px;
 }
@@ -197,23 +205,12 @@
 .collection__title-shade {
     margin-left: 8px;
 
-    color: var(--color-heading-shade);
+    color: var(--color-primary-100);
 }
 /* 
     FEATURED COLLECTION
 -----------------------------
 */
-.featured-collection {
-    background-color: var(--color-grey-200);
-    padding-bottom: 32px
-}
-.featured-collection .container {
-    width:90%;
-    margin: auto;
-    /* padding: 20px; */
-
-    /* background-color: var(--color-white); */
-}
 .products__wrapper {
     display: flex;
     gap: 20px;
@@ -223,7 +220,43 @@
 }
 
 /* 
-    SPECIAL-COLLECTION
+    LATEST-COLLECTION
 ---------------------------
 */
-
+.latest__wrapper {
+    display:flex;
+    gap:20px;
+    transform: translate(-10%);
+    transition: 300ms;
+}
+.latest-card {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: scale 300ms;
+    box-shadow: 2px 4px 12px rgba(0,0,0,.08);
+}
+.latest-card:hover {
+    scale: 1.02;
+    box-shadow: 2px 4px 16px rgba(0,0,0,.16);
+}
+.latest-card__img {
+    width:100%;
+    display:block;
+}
+.latest-card__content {
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    padding: 5px;
+}
+.latest-card__title {
+    color: var(--color-primary-300);
+    font-size: var(--fs-650);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.latest-card__desc {
+    color: var(--color-primary-100);
+    font-size: 17px;
+}

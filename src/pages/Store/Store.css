@@ -1,0 +1,13 @@
+.store {
+    background-color: var(--color-grey-200);
+
+}
+.store .container {
+    width: 90%;
+    margin:auto;
+    display: flex;
+}
+.filter-card h5{
+    font-size: var(--fs-550);
+    font-weight: 500;
+}
