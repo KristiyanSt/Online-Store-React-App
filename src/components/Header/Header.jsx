@@ -25,7 +25,7 @@ function Header(props) {
                 <div className="container">
                     <section className="header-top">
                         <div className="header-top__wrapper">
-                            <h1 className="header-top__title">
+                            <h1 className="header-top__title hover-b-white">
                                 <Link className="header-top__title--link">Storish</Link>
                             </h1>
                             <div className="header-top__search input-group">
@@ -37,19 +37,19 @@ function Header(props) {
                             <nav className="header-top__nav">
                                 <ul className="header-top__links">
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link className="header-top__link hover-b-white">
                                             <img className="header-top__link--img" src="/assets/images/heart-regular.svg" alt="heart" />
                                             <p className="header-top__link--text">Favourite <br /> Wishlist</p>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link className="header-top__link hover-b-white">
                                             <img className="header-top__link--img" src="/assets/images/user-regular.svg" alt="user" />
                                             <p className="header-top__link--text">Log In  <br /> My Account</p>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link className="header-top__link hover-b-white">
                                             <img className="header-top__link--img" src="/assets/images/cart-arrow-down-solid.svg" alt="cart" />
                                             <p className="header-top__link--text">
                                                 <span className="header-top__link--text--zero">0</span> <br /> $0.00
@@ -63,7 +63,7 @@ function Header(props) {
                     <section className="header-bottom">
                         <div className="header-bottom__wrapper">
                                 <div className="dropdown" onClick={toggleDropdown}>
-                                    <button className="dropdown__button" >
+                                    <button className="dropdown__button hover-b-white" >
                                         Shop Categories
                                     </button>
                                     <img className="dropdown__icon" src="/assets/images/down-arrow-svgrepo-com.svg" alt="dropdown-icon" />
@@ -80,16 +80,16 @@ function Header(props) {
                                     <nav className="header-bottom__nav">
                                         <ul className="header-bottom__links">
                                             <li>
-                                                <NavLink to="/" className="header-bottom__link">Home</NavLink>
+                                                <NavLink to="/" className="header-bottom__link hover-b-white">Home</NavLink>
                                             </li>
                                             <li>
-                                                <NavLink to="/store" className="header-bottom__link">Store</NavLink>
+                                                <NavLink to="/store" className="header-bottom__link hover-b-white">Store</NavLink>
                                             </li>
                                             <li>
-                                                <NavLink className="header-bottom__link">Blogs</NavLink>
+                                                <NavLink className="header-bottom__link hover-b-white">Blogs</NavLink>
                                             </li>
                                             <li>
-                                                <NavLink className="header-bottom__link">Contact</NavLink>
+                                                <NavLink className="header-bottom__link hover-b-white">Contact</NavLink>
                                             </li>
                                         </ul>
                                     </nav>

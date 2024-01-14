@@ -9,6 +9,14 @@
     background-color: white;
     transition: scale 0.3s;
 }
+.content-col {
+    display:flex;
+    flex-direction: column;
+}
+.content-row {
+    display:flex;
+    flex-direction: row;
+}
 .product-card:hover {
     scale: 1.02;
     box-shadow: 2px 4px 16px rgba(0,0,0,.16);
