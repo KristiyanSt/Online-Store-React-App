@@ -2,37 +2,55 @@
     HEADER-TOP
 -------------------
 */
-.hover-b-white:hover {
-    border:1px solid var(--color-white);
-}
+
 .header-top {
     background-color: var(--color-primary-400);
     font-size: var(--fs-300);
 }
 .header-top__wrapper {
-    width:90%;
+    width:95%;
     display: flex;
     margin: auto;
     align-items: center;
     justify-content: space-between;
-    padding-block: 1rem;
+    padding-block: 7px;
 }
 .header-top__title {
+    padding: 6px 7px 4px 5px;
     font-size: var(--fs-700);
     font-weight: 500;
 }
+.header-top__title:hover {
+    padding: 5px 6px 3px 4px;
+    border: 1px solid var(--color-white);
+    border-radius: 2px;
+}
 
+.header-top__search--img {
+    width: 20px;
+}
+.header-top__search .input-button:hover {
+    background-color: #f7a132;
+}
 .header-top__title--link {
     color: var(--color-white);
 }
 
 .header-top__links {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.5rem;
 }
-
+.header-top__links li {
+    padding: 6px 7px 6px;
+}
+.header-top__links li:hover {
+    padding: 5px 6px 5px;
+    border: 1px solid var(--color-white);
+    border-radius: 2px;
+}
 .header-top__link {
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 .header-top__link--img {
@@ -41,13 +59,13 @@
 }
 
 .header-top__link--text {
-    display: inline-block;
     max-height: 36px;
     line-height: 1.6;
     margin-left: 12px;
 
     color: var(--color-white);
 }
+
 
 .header-top__link--text--zero {
     padding-inline: 8px;
