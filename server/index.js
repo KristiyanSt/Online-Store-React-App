@@ -5,11 +5,15 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 const authRouter = require('./routes/authRoute.js');
 const bodyParser = require("body-parser");
+const { errorHandler, notFound } = require("./middlewares/errorHandler.js");
 
 dbConnect();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/api/user", authRouter);
+
+app.use("/api/user",authRouter);
+app.use(notFound);
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
