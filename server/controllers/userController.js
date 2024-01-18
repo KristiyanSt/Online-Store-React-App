@@ -1,12 +1,12 @@
 const { generateToken } = require('../config/jwtToken.js');
+const { generateRefreshToken } = require('../config/refreshToken.js');
 const User = require('../models/User.js');
 const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
     const findUser = await User.findOne({ email });
-    console.log(req.body);
-
     if (!findUser) {
         //Create a new user
         const newUser = await User.create(req.body);
@@ -18,10 +18,23 @@ const createUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-
     //check if user exists 
     const findUser = await User.findOne({ email });
     if (findUser && (await findUser.isPasswordMatched(password))) {
+        const refreshToken = generateRefreshToken(findUser?._id);
+        const updateUser = await User.findByIdAndUpdate(
+            findUser?._id,
+            {
+                refreshToken
+            },
+            {
+                new: true
+            }
+        );
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 72 * 60 * 60 * 1000
+        });
         res.json({
             _id: findUser?._id,
             firstname: findUser?.firstname,
@@ -33,6 +46,7 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid Credentials");
     }
 });
+
 
 const getUsers = asyncHandler(async (req, res) => {
     try {
@@ -64,13 +78,10 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-    //verify later
-
-    const { id } = req.params;
-
+    const { _id } = req.user;
     try {
         const updatedUser = await User.findByIdAndUpdate(
-            id,
+            _id,
             {
                 firstname: req.body?.firstname,
                 lastname: req.body?.lastname,
@@ -82,7 +93,93 @@ const updateUser = asyncHandler(async (req, res) => {
     } catch (error) {
         throw new Error(error);
     }
+});
 
-})
+const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const block = await User.findByIdAndUpdate(
+            id,
+            {
+                isBlocked: true
+            },
+            {
+                new: true
+            }
+        );
+        res.json({
+            message: 'User Blocked'
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+});
 
-module.exports = { createUser, loginUser, getUsers, getUser, deleteUser, updateUser }
+const unblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const unblock = await User.findByIdAndUpdate(
+            id,
+            {
+                isBlocked: false
+            },
+            {
+                new: true
+            }
+        );
+        res.json({
+            message: 'User Unblocked'
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+
+const handleRefreshToken = asyncHandler(async (req, res) => {
+    const cookie = req.cookies;
+    if (!cookie?.refreshToken) throw new Error("No refresh token in cookies");
+    const refreshToken = cookie.refreshToken;
+    const user = await User.findOne({ refreshToken });
+    if (!user) throw new Error("No user matched to this refresh token");
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    if (decoded.id != user._id) throw new Error("Trouble with refresh token");
+    const accesstoken = generateToken(user._id);
+    res.json({ accesstoken })
+});
+
+
+const logout = asyncHandler(async (req, res) => {
+    const cookie = req.cookies;
+    if (!cookie?.refreshToken) throw new Error("No refresh token in cookies");
+    const refreshToken = cookie.refreshToken;
+    const user = await User.findOne({ refreshToken });
+    if (!user) {
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: true
+        });
+        return res.sendStatus(204);
+    }
+    await User.findOneAndUpdate({ refreshToken }, {
+        refreshToken: ""
+    });
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true
+    });
+    res.sendStatus(204);
+});
+
+module.exports = {
+    createUser,
+    loginUser,
+    getUsers,
+    getUser,
+    deleteUser,
+    updateUser,
+    blockUser,
+    unblockUser,
+    handleRefreshToken,
+    logout
+}
