@@ -26,15 +26,49 @@ const getProduct = asyncHandler(async (req, res) => {
 });
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const queryObj = {...req.query};
-        const excludeFields = ["page","sort","limit","fields"];
-
+        const queryObj = { ...req.query };
+        const excludeFields = ["page", "sort", "limit", "fields"];
+        excludeFields.forEach(field => delete queryObj[field]);
         let queryString = JSON.stringify(queryObj);
-        queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g , match => `$${match}`);
-        console.log(JSON.parse(queryString));
+        queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        const allProducts = await Product.find(JSON.parse(queryString));
-        res.json(allProducts);
+
+        //sort
+        let sortString;
+        if (req.query.sort) {
+            sortString = req.query.sort.split(",").join(" ");
+        } else {
+            sortString = "-createdAt";
+        }
+
+        //limit the fields
+        let fieldsString;
+        if (req.query.fields) {
+            fieldsString = req.query.fields.split(",").join(" ");
+        } else {
+            fieldsString = "-__v";
+        }
+
+        //pagination
+        let limit;
+        let skip;
+        if (req.query.page) {
+            const page = req.query.page;
+            limit = req.query.limit;
+            skip = (page - 1) * limit;
+            const productsCount = await Product.countDocuments();
+            if(productsCount < limit * skip){
+                throw new Error('This page does not exist');
+            }
+        }
+
+        const products = await Product
+                            .find(JSON.parse(queryString))
+                            .sort(sortString)
+                            .select(fieldsString)
+                            .skip(skip)
+                            .limit(limit);
+        res.json(products);
     } catch (error) {
         throw new Error(error);
     }
@@ -46,7 +80,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         if (req.body.title) {
             req.body.slug = slugify(req.body.title);
         }
-        const update = await Product.findByIdAndUpdate( id , req.body, { new: true });
+        const update = await Product.findByIdAndUpdate(id, req.body, { new: true });
         res.json(update);
     } catch (error) {
         throw new Error(error);
