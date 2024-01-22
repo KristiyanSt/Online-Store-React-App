@@ -7,6 +7,9 @@ const app = express();
 const authRouter = require('./routes/authRoute.js');
 const blogRouter = require('./routes/blogRoute.js');
 const productRouter = require('./routes/productRoute.js');
+const prodCategoryRouter = require('./routes/prodCategoryRoute.js');
+const blogCategoryRouter = require('./routes/blogCategoryRoute.js');
+const brandRouter = require('./routes/brandRoute.js');
 
 const bodyParser = require("body-parser");
 const { errorHandler, notFound } = require("./middlewares/errorHandler.js");
@@ -22,6 +25,9 @@ app.use(morgan('dev'));
 app.use("/api/user",authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/blog", blogRouter);
+app.use("/api/prod-category",prodCategoryRouter );
+app.use("/api/blog-category",blogCategoryRouter );
+app.use("/api/brand",brandRouter );
 app.use(notFound);
 app.use(errorHandler)
 
