@@ -40,9 +40,7 @@ const ProductSchema = new Schema({
         type: Number,
         default: 0
     },
-    images: {
-        type: Array
-    },
+    images: [],
     ratings: [{
         star: Number,
         comment: String,
