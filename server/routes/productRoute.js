@@ -6,12 +6,11 @@ const { uploadPhoto, productImgResize } = require('../middlewares/uploadImages.j
 const router = require('express').Router();
 
 router.put('/wishlist', authMiddleware, addToWishlist);
-router.put(
+router.post(
     '/upload/:id',
     authMiddleware,
     isAdmin,
-    uploadPhoto.array('images', 10),
-    productImgResize,
+    uploadPhoto.array('images', 2),
     uploadProductImages 
 );
 router.post('/', authMiddleware, isAdmin, createProduct);

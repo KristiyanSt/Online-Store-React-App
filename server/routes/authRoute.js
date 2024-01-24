@@ -1,22 +1,28 @@
 const express = require('express');
-const { createUser, loginUser, getUsers, getUser, deleteUser, updateUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword } = require('../controllers/userController.js');
+const { createUser, loginUser, getUsers, getUser, deleteUser, updateUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, loginAdmin, getWishList, saveAddress, userCart, getUserCart, emptyCart, applyCoupon } = require('../controllers/userController.js');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware.js');
 
 const router = express.Router();
 
 router.post('/register', createUser);
 router.post('/login', loginUser);
+router.post('/login-admin', loginAdmin);
 router.get('/all-users', getUsers);
 router.get('/refresh', handleRefreshToken);
 router.get('/logout', logout);
-router.get('/:id', authMiddleware,isAdmin, getUser);
+router.get('/wishlist', authMiddleware, getWishList);
+router.get('/cart', authMiddleware, getUserCart);
+router.get('/:id', authMiddleware, isAdmin, getUser);
 router.delete('/delete/:id', deleteUser);
-router.put('/update/:id',authMiddleware, updateUser);
-router.put('/block/:id',authMiddleware,isAdmin, blockUser);
-router.put('/unblock/:id',authMiddleware,isAdmin, unblockUser);
-
+router.put('/edit', authMiddleware, updateUser);
+router.put('/block/:id', authMiddleware, isAdmin, blockUser);
+router.put('/unblock/:id', authMiddleware, isAdmin, unblockUser);
+router.put('/save-address', authMiddleware, saveAddress);
 router.put('/password', authMiddleware, updatePassword);
-router.post('/forgot-password-token',forgotPasswordToken);
+router.post('/forgot-password-token', forgotPasswordToken);
 router.put('/reset-password/:token', resetPassword);
+router.post('/cart', authMiddleware, userCart);
+router.delete('/empty-cart', authMiddleware, emptyCart);
+router.post('/apply-coupon',authMiddleware, applyCoupon);
 
 module.exports = router; 

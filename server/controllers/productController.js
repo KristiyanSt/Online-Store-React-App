@@ -5,6 +5,7 @@ const User = require("../models/User.js");
 const { validateDbId } = require("../utils/validateDbId.js");
 const cloudinaryUploadImg = require('../utils/cloudinary.js');
 const fs = require('fs');
+const { promisify } = require('util');
 
 const createProduct = asyncHandler(async (req, res) => {
     try {

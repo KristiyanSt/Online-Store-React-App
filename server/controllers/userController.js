@@ -1,17 +1,21 @@
 const { generateToken } = require('../config/jwtToken.js');
 const { generateRefreshToken } = require('../config/refreshToken.js');
 const User = require('../models/User.js');
+const Product = require('../models/Product.js');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const { validateDbId } = require('../utils/validateDbId.js');
 const { sendEmail } = require('./emailController.js');
 const crypto = require('crypto');
-
+const Cart = require('../models/Cart.js');
+const Coupon = require('../models/Coupon.js');
+const Order = require('../models/Order.js');
+const uniqid = require('uniqid');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
-    const findUser = await User.findOne({ email });
-    if (!findUser) {
+    const findAdmin = await User.findOne({ email });
+    if (!findAdmin) {
         //Create a new user
         const newUser = await User.create(req.body);
         res.json(newUser);
@@ -23,11 +27,11 @@ const createUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     //check if user exists 
-    const findUser = await User.findOne({ email });
-    if (findUser && (await findUser.isPasswordMatched(password))) {
-        const refreshToken = generateRefreshToken(findUser?._id);
+    const findAdmin = await User.findOne({ email });
+    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+        const refreshToken = generateRefreshToken(findAdmin?._id);
         const updateUser = await User.findByIdAndUpdate(
-            findUser?._id,
+            findAdmin?._id,
             {
                 refreshToken
             },
@@ -40,17 +44,50 @@ const loginUser = asyncHandler(async (req, res) => {
             maxAge: 72 * 60 * 60 * 1000
         });
         res.json({
-            _id: findUser?._id,
-            firstname: findUser?.firstname,
-            lastname: findUser?.lastname,
-            email: findUser?.email,
-            token: generateToken(findUser?._id)
+            _id: findAdmin?._id,
+            firstname: findAdmin?.firstname,
+            lastname: findAdmin?.lastname,
+            email: findAdmin?.email,
+            token: generateToken(findAdmin?._id)
         });
     } else {
         throw new Error("Invalid Credentials");
     }
 });
 
+const loginAdmin = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    //check if user exists 
+    const findAdmin = await User.findOne({ email });
+    //check if finded is admin
+    if (findAdmin.role !== 'admin') throw new Error('Not Authorized');
+
+    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+        const refreshToken = generateRefreshToken(findAdmin?._id);
+        const updateUser = await User.findByIdAndUpdate(
+            findAdmin?._id,
+            {
+                refreshToken
+            },
+            {
+                new: true
+            }
+        );
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 72 * 60 * 60 * 1000
+        });
+        res.json({
+            _id: findAdmin?._id,
+            firstname: findAdmin?.firstname,
+            lastname: findAdmin?.lastname,
+            email: findAdmin?.email,
+            token: generateToken(findAdmin?._id)
+        });
+    } else {
+        throw new Error("Invalid Credentials");
+    }
+});
 
 const getUsers = asyncHandler(async (req, res) => {
     try {
@@ -139,7 +176,6 @@ const unblockUser = asyncHandler(async (req, res) => {
     }
 });
 
-
 const handleRefreshToken = asyncHandler(async (req, res) => {
     const cookie = req.cookies;
     if (!cookie?.refreshToken) throw new Error("No refresh token in cookies");
@@ -151,7 +187,6 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
     const accesstoken = generateToken(user._id);
     res.json({ accesstoken })
 });
-
 
 const logout = asyncHandler(async (req, res) => {
     const cookie = req.cookies;
@@ -218,21 +253,164 @@ const resetPassword = asyncHandler(async (req, res) => {
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     const user = await User.findOne({
         passwordResetToken: hashedToken,
-        passwordResetExpires: {$gt: Date.now()}
+        passwordResetExpires: { $gt: Date.now() }
     });
 
-    if(!user) throw new Error('Token expired, Please try again');
-    
+    if (!user) throw new Error('Token expired, Please try again');
+
     user.password = password;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
     res.json(user);
+});
+
+const getWishList = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    try {
+        const found = await User.findById(_id).populate('wishlist');
+        res.json(found);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const saveAddress = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    const { address } = req.body;
+    try {
+        const updated = await User.findByIdAndUpdate(_id,
+            {
+                address
+            },
+            {
+                new: true
+            }
+        );
+        res.json(updated);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const userCart = asyncHandler(async (req, res) => {
+    const { cart } = req.body;
+    const { _id } = req.user;
+    validateDbId(_id);
+
+    try {
+        const user = await User.findById(_id);
+        const hasCart = await Cart.findOne({ orderBy: user._id });
+        if (hasCart) {
+            hasCart.remove();
+        }
+        let products = [];
+        for (let i = 0; i < cart.length; i++) {
+            let object = {};
+            object.product = cart[i]._id;
+            object.count = cart[i].count;
+            object.color = cart[i].color;
+            let getPrice = await Product.findById(cart[i]._id).select("price").exec();
+            object.price = getPrice.price;
+            products.push(object);
+        }
+
+        let cartTotal = 0;
+        for (let i = 0; i < products.length; i++) {
+            cartTotal += products[i].price * products[i].count;
+        }
+
+        let newCart = await new Cart({
+            products,
+            cartTotal,
+            orderBy: user._id
+        }).save();
+        res.json(newCart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const getUserCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateDbId(_id);
+    try {
+        const cart = await Cart.findOne({ orderBy: _id }).populate("products.product");
+        res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const emptyCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateDbId(_id);
+    try {
+        const user = await User.findById(_id);
+        const cart = await Cart.findOneAndDelete({ orderBy: user._id });
+        res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const applyCoupon = asyncHandler(async (req, res) => {
+    const { coupon } = req.body;
+    const { _id } = req.user;
+
+    //verify coupon
+    const validCoupon = await Coupon.findOne({ name: coupon });
+    if (!validCoupon) {
+        throw new Error('Invalid coupon');
+    }
+
+    const user = await User.findById(_id);
+    let { cartTotal } = await Cart.findOne({ orderBy: user._id })
+        .populate("products.product");
+
+    let totalAfterDiscount = cartTotal - (cartTotal * (validCoupon.discount / 100)).toFixed(2);
+    await Cart.findOneAndUpdate({ orderBy: user._id },{totalAfterDiscount},{new:true});
+    res.json(totalAfterDiscount);
+});
+
+const createOrder = asyncHandler(async (req,res) => {
+    const {COD, couponApplied} = req.body;
+    const { _id } = req.user;
+    validateDbId(_id);
+
+    if(!COD) {
+        throw new Error('Order failed');
+    }
+
+    try {
+        const user = await User.findById(_id);
+        const cart = await Cart.findOne({orderBy: user._id});
+
+        let finalAmount = 0;
+        if(couponApplied && userCart.totalAfterDiscount) {
+            finalAmount = userCart.totalAfterDiscount * 100;
+        } else {
+            finalAmount = userCart.cartTotal * 100;
+        }
+
+        let newOrder = await new Order({
+            products:userCart.products,
+            paymentIntent: {
+                id: uniqid(),
+                method: 
+            }
+        })
+        
+    } catch (error) {
+        throw new Error(error);
+    }
+
 })
 
 module.exports = {
     createUser,
     loginUser,
+    loginAdmin,
     getUsers,
     getUser,
     deleteUser,
@@ -243,5 +421,11 @@ module.exports = {
     logout,
     updatePassword,
     forgotPasswordToken,
-    resetPassword
+    resetPassword,
+    getWishList,
+    saveAddress,
+    userCart,
+    getUserCart,
+    emptyCart,
+    applyCoupon
 }
