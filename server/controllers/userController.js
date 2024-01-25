@@ -369,43 +369,93 @@ const applyCoupon = asyncHandler(async (req, res) => {
         .populate("products.product");
 
     let totalAfterDiscount = cartTotal - (cartTotal * (validCoupon.discount / 100)).toFixed(2);
-    await Cart.findOneAndUpdate({ orderBy: user._id },{totalAfterDiscount},{new:true});
+    await Cart.findOneAndUpdate({ orderBy: user._id }, { totalAfterDiscount }, { new: true });
     res.json(totalAfterDiscount);
 });
 
-const createOrder = asyncHandler(async (req,res) => {
-    const {COD, couponApplied} = req.body;
+const createOrder = asyncHandler(async (req, res) => {
+    const { COD, couponApplied } = req.body;
     const { _id } = req.user;
     validateDbId(_id);
 
-    if(!COD) {
+    if (!COD) {
         throw new Error('Order failed');
     }
 
     try {
         const user = await User.findById(_id);
-        const cart = await Cart.findOne({orderBy: user._id});
+        const cart = await Cart.findOne({ orderBy: user._id });
 
         let finalAmount = 0;
-        if(couponApplied && userCart.totalAfterDiscount) {
-            finalAmount = userCart.totalAfterDiscount * 100;
+        if (couponApplied && cart.totalAfterDiscount) {
+            finalAmount = cart.totalAfterDiscount;
         } else {
-            finalAmount = userCart.cartTotal * 100;
+            finalAmount = cart.cartTotal;
         }
 
         let newOrder = await new Order({
-            products:userCart.products,
+            products: cart.products,
             paymentIntent: {
                 id: uniqid(),
-                method: 
+                method: "COD",
+                amount: finalAmount,
+                status: "Cash on delivery",
+                created: Date.now(),
+                currency: "usd"
+            },
+            orderBy: user._id,
+            orderStatus: "Cash on delivery"
+        }).save();
+
+        const update = cart.products.map((item) => {
+            return {
+                updateOne: {
+                    filter: { _id: item.product._id },
+                    update: { $inc: { quantity: -item.count, sold: +item.count } }
+                }
             }
-        })
-        
+        });
+        const updated = await Product.bulkWrite(update, {});
+        res.json({ message: "success" });
     } catch (error) {
         throw new Error(error);
     }
 
-})
+});
+
+const getOrders = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateDbId(_id);
+
+    try {
+        const userOrders = await Order.findOne({ orderBy: _id }).populate("products.product");
+        res.json(userOrders);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const updateOrderStatus = asyncHandler(async (req, res) => {
+    const { status } = req.body;
+    const { id } = req.params;
+    validateDbId(id);
+    
+    try {
+        const updatedOrderStatus = await Order.findByIdAndUpdate(id,
+            {
+                orderStatus: status,
+                paymentIntent: {
+                    status: status
+                }
+            },
+            {
+                new: true
+            });
+        res.json(updatedOrderStatus);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
 
 module.exports = {
     createUser,
@@ -427,5 +477,8 @@ module.exports = {
     userCart,
     getUserCart,
     emptyCart,
-    applyCoupon
+    applyCoupon,
+    createOrder,
+    getOrders,
+    updateOrderStatus
 }
