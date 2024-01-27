@@ -37,19 +37,25 @@ function Header(props) {
                             <nav className="header-top__nav">
                                 <ul className="header-top__links">
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link to="/compare-products" className="header-top__link">
+                                            <img className="header-top__link--img" src="/assets/images/circle.png" alt="compare" />
+                                            <p className="header-top__link--text">Compare <br /> Products</p>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/wishlist" className="header-top__link">
                                             <img className="header-top__link--img" src="/assets/images/heart-regular.svg" alt="heart" />
                                             <p className="header-top__link--text">Favourite <br /> Wishlist</p>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link to="/login" className="header-top__link">
                                             <img className="header-top__link--img" src="/assets/images/user-regular.svg" alt="user" />
                                             <p className="header-top__link--text">Log In  <br /> My Account</p>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="header-top__link">
+                                        <Link to="/cart" className="header-top__link">
                                             <img className="header-top__link--img" src="/assets/images/cart-arrow-down-solid.svg" alt="cart" />
                                             <p className="header-top__link--text">
                                                 <span className="header-top__link--text--zero">0</span> <br /> $0.00
@@ -62,38 +68,38 @@ function Header(props) {
                     </section>
                     <section className="header-bottom">
                         <div className="header-bottom__wrapper">
-                                <div className="dropdown" onClick={toggleDropdown}>
-                                    <button className="dropdown__button" >
-                                        Shop Categories
-                                    </button>
-                                    <img className="dropdown__icon" src="/assets/images/down-arrow-svgrepo-com.svg" alt="dropdown-icon" />
+                            <div className="dropdown" onClick={toggleDropdown}>
+                                <button className="dropdown__button" >
+                                    Shop Categories
+                                </button>
+                                <img className="dropdown__icon" src="/assets/images/down-arrow-svgrepo-com.svg" alt="dropdown-icon" />
 
-                                    {isOpen && (
-                                        <ul className="dropdown__menu">
-                                            <li className="dropdown__link" onClick={() => handleOptionClick('Option 1')}><Link>Option 1</Link></li>
-                                            <li className="dropdown__link" onClick={() => handleOptionClick('Option 2')}><Link>Option 2</Link></li>
-                                            <li className="dropdown__link" onClick={() => handleOptionClick('Option 3')}><Link>Option 3</Link></li>
-                                        </ul>
-                                    )}
-                                </div>
-                                <div className="header-bottom__menu">
-                                    <nav className="header-bottom__nav">
-                                        <ul className="header-bottom__links">
-                                            <li>
-                                                <NavLink to="/" className="header-bottom__link">Home</NavLink>
-                                            </li>
-                                            <li>
-                                                <NavLink to="/store" className="header-bottom__link">Store</NavLink>
-                                            </li>
-                                            <li>
-                                                <NavLink className="header-bottom__link">Blogs</NavLink>
-                                            </li>
-                                            <li>
-                                                <NavLink className="header-bottom__link">Contact</NavLink>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                {isOpen && (
+                                    <ul className="dropdown__menu">
+                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 1')}><Link>Option 1</Link></li>
+                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 2')}><Link>Option 2</Link></li>
+                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 3')}><Link>Option 3</Link></li>
+                                    </ul>
+                                )}
+                            </div>
+                            <div className="header-bottom__menu">
+                                <nav className="header-bottom__nav">
+                                    <ul className="header-bottom__links">
+                                        <li>
+                                            <NavLink to="/" className="header-bottom__link">Home</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/store" className="header-bottom__link">Store</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink className="header-bottom__link">Blogs</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink className="header-bottom__link">Contact</NavLink>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </section>
                 </div>

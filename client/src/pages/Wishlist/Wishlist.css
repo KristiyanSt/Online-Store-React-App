@@ -1,0 +1,38 @@
+.wishlist .container {
+    width: 100%;
+    background-color: antiquewhite;
+
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.wishlist-card {
+    position: relative;
+    background-color: var(--color-white);
+}
+.close-btn {
+    position:absolute;
+    top:0;
+    right:0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.wishlist-card__header {
+    color: var(--color-primary-400);
+    letter-spacing: 0.1;
+}
+
+.wishlist-card__title {
+    margin-bottom: 10px;
+
+    font-size: var(--fs-500);
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+
+.wishlist-card__price {
+    font-weight: 400;
+}

@@ -1,0 +1,57 @@
+.compare-products .container {
+    width: 100%;
+    background-color: antiquewhite;
+
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.compare-card {
+    position: relative;
+    background-color: var(--color-white);
+}
+
+.compare-card .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.compare-card__header {
+    color: var(--color-primary-400);
+    letter-spacing: 0.1;
+}
+
+.compare-card__title {
+    margin-bottom: 10px;
+
+    font-size: var(--fs-500);
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+
+.compare-card__price {
+    font-weight: 400;
+}
+
+.details-couple {
+    display: flex;
+    justify-content: space-between;
+
+    border-top: 1px solid var(--color-grey-300);
+    line-height: 42px;
+}
+
+.couple-title {
+    font-size: var(--fs-400);
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+.couple-label {
+    font-size: var(--fs-400);
+    opacity: 55%;
+}

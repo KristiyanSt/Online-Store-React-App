@@ -7,6 +7,11 @@ const router = express.Router();
 router.post('/register', createUser);
 router.post('/login', loginUser);
 router.post('/login-admin', loginAdmin);
+router.post('/forgot-password-token', forgotPasswordToken);
+router.post('/cart', authMiddleware, userCart);
+router.post('/apply-coupon', authMiddleware, applyCoupon);
+router.post('/create-order', authMiddleware, createOrder);
+
 router.get('/all-users', getUsers);
 router.get('/refresh', handleRefreshToken);
 router.get('/logout', logout);
@@ -14,18 +19,17 @@ router.get('/get-orders', authMiddleware, getOrders);
 router.get('/wishlist', authMiddleware, getWishList);
 router.get('/cart', authMiddleware, getUserCart);
 router.get('/:id', authMiddleware, isAdmin, getUser);
+
 router.delete('/delete/:id', deleteUser);
+router.delete('/empty-cart', authMiddleware, emptyCart);
+
 router.put('/edit', authMiddleware, updateUser);
 router.put('/update-order/:id',authMiddleware, isAdmin, updateOrderStatus);
 router.put('/block/:id', authMiddleware, isAdmin, blockUser);
 router.put('/unblock/:id', authMiddleware, isAdmin, unblockUser);
 router.put('/save-address', authMiddleware, saveAddress);
 router.put('/password', authMiddleware, updatePassword);
-router.post('/forgot-password-token', forgotPasswordToken);
 router.put('/reset-password/:token', resetPassword);
-router.post('/cart', authMiddleware, userCart);
-router.delete('/empty-cart', authMiddleware, emptyCart);
-router.post('/apply-coupon', authMiddleware, applyCoupon);
-router.post('/create-order', authMiddleware, createOrder);
+
 
 module.exports = router; 

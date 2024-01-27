@@ -300,9 +300,9 @@ const userCart = asyncHandler(async (req, res) => {
 
     try {
         const user = await User.findById(_id);
-        const hasCart = await Cart.findOne({ orderBy: user._id });
-        if (hasCart) {
-            hasCart.remove();
+        const existCart = await Cart.findOne({ orderBy: user._id });
+        if (existCart) {
+            existCart.remove();
         }
         let products = [];
         for (let i = 0; i < cart.length; i++) {
@@ -439,7 +439,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     const { status } = req.body;
     const { id } = req.params;
     validateDbId(id);
-    
+
     try {
         const updatedOrderStatus = await Order.findByIdAndUpdate(id,
             {
