@@ -2,18 +2,18 @@ import React from 'react';
 import Meta from '../../components/Meta/Meta.jsx';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import { Link } from 'react-router-dom';
-import './Login.css';
+import './SignIn.css';
 
-function Login(props) {
+function SignIn(props) {
     return (
         <>
-            <Meta title={"Login"} />
-            <Breadcrumb title="Login" />
-            <div className="login">
-                <div className="login-card">
-                    <h3 className="login-card__title">Login</h3>
+            <Meta title={"Sign In"} />
+            <Breadcrumb title="Sign In" />
+            <div className="signin">
+                <div className="signin-card">
+                    <h3 className="signin-card__title">Sign In</h3>
                     <form action="">
-                        <div className="login-card__input-group">
+                        <div className="signin-card__input-group">
                             <input
                                 className="form-control"
                                 type="email"
@@ -21,7 +21,7 @@ function Login(props) {
                                 placeholder="Email"
                             />
                         </div>
-                        <div className="login-card__input-group">
+                        <div className="signin-card__input-group">
                             <input
                                 className="form-control"
                                 type="password"
@@ -33,18 +33,18 @@ function Login(props) {
                             <Link to="/forgot-password">Forgot password?</Link>
                         </div>
                         <div>
-                            <button className="submit-button" >Continue</button>
+                            <button className="submit-button" type="submit">Continue</button>
                         </div>
                     </form>
                 </div>
                 <div className="sign-up">
                     <p>New to Storish?</p>
                     <span className="divider"></span>
-                    <button className="sign-up-button">Create Your Storish Account</button>
+                    <Link to="/signup" className="sign-up-link">Create Your Storish Account</Link>
                 </div>
             </div>
         </>
     );
 }
 
-export default Login;
+export default SignIn;

@@ -5,8 +5,11 @@ import Layout from './components/Layout.jsx';
 import Store from './pages/Store/Store.jsx';
 import CompareProducts from './pages/CompareProducts/CompareProducts.jsx';
 import Wishlist from './pages/Wishlist/Wishlist.jsx';
-import Login from './pages/Login/Login.jsx';
-
+import SignIn from './pages/SignIn/SignIn.jsx';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
+import SignUp from './pages/SignUp/SignUp.jsx';
+import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
+import Product from './pages/Product/Product.jsx';
 
 function App() {
   return (
@@ -15,9 +18,13 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="store" element={<Store />} />
+          <Route path="product/:id" element={<Product />} />
           <Route path="compare-products" element={<CompareProducts />} />
           <Route path="wishlist" element={<Wishlist />} />
-          <Route path="login" element={<Login />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="reset-password" element={<ResetPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

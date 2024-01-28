@@ -42,20 +42,9 @@ body {
     --color-grey-200: #f5f5f7;
     --color-grey-300: #d2d2d2;
     --color-heading-shade: #6e6e73;
-    
+    --color-link: rgb(75, 157, 220);
     --color-accent: #febd69;
     --color-orange:#df5454;
-
-
-    --color-blue-regular: #1aa1b9;
-    --color-blue-light: #2aadc1;
-    --color-blue-lighter: #6bbfff;
-    --color-blue-dark: #0d6785;
-    --color-dark: #454545;
-    --color-grey: #393f43;
-    --color-grey-lighter: #545a5e;
-    --color-grey-dark: #2f3539;
-    --color-grey-blue: #262b2f;
 
     --fs-300: 0.8125rem;
     --fs-400: 0.875rem;

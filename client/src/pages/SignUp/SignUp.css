@@ -1,0 +1,68 @@
+.signup {
+    width: 28%;
+    margin: auto;
+}
+
+.signup-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 1rem;
+
+    border: 1px solid var(--color-grey-300);
+    border-radius: 8px;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, .08);
+}
+
+.signup-card__title {
+    margin-bottom: 1.5rem;
+
+    letter-spacing: 0.1px;
+    font-size: var(--fs-650);
+    font-weight: 500;
+    color: var(--color-primary-300);
+}
+
+.signup-card .form-control {
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+    font-size: var(--fs-500);
+    height: 35px;
+    padding: 10px;
+}
+
+.signup-card__input-group {
+    margin-bottom: 1rem;
+}
+
+.signup-card .submit-button {
+    text-align: center;
+    padding: 9px;
+    width: 100%;
+    margin-bottom: 1rem;
+    
+    font-size: var(--fs-400);
+    font-weight: 500;
+    border-radius: 8px;
+    letter-spacing: 0.2px;
+    background-color: var(--color-accent);
+    cursor: pointer;
+}
+
+.signup-card .submit-button:hover {
+    background-color: #f7a132;
+}
+
+.signup-card span {
+    font-size: var(--fs-300);
+    font-weight: 500;
+    color: var(--color-heading-shade);
+}
+
+.signup-card span a {
+    margin-left:0.5rem;
+    
+    font-weight: 500;
+    color:var(--color-link)
+}

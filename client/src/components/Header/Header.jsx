@@ -49,9 +49,9 @@ function Header(props) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/login" className="header-top__link">
+                                        <Link to="/signin" className="header-top__link">
                                             <img className="header-top__link--img" src="/assets/images/user-regular.svg" alt="user" />
-                                            <p className="header-top__link--text">Log In  <br /> My Account</p>
+                                            <p className="header-top__link--text">Sign In  <br /> My Account</p>
                                         </Link>
                                     </li>
                                     <li>
