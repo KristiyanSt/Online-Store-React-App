@@ -33,7 +33,7 @@ function Store(props) {
                 <div className="result-info">
                     <p>1-24 of over 6,000 results for <span>"iphone 3"</span></p>
                     <div className="sort">
-                        <div className="dropdown" onClick={toggleDropdown}>
+                        <div tabIndex="0" className="dropdown" onClick={toggleDropdown}>
                             <button className="dropdown__button" >
                                 Sort by: Filtered
                             </button>

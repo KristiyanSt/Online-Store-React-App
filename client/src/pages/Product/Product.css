@@ -11,7 +11,7 @@
 }
 
 .total-rating {
-    display:flex;
+    display: flex;
     align-items: center;
     gap: 10px;
 
@@ -22,10 +22,121 @@
 .total-ratins__text {
     margin-right: auto;
 }
+
 .create-review-link {
     font-size: var(--fs-400);
     font-weight: 500;
     color: var(--color-heading-shade);
     text-decoration: underline;
     cursor: pointer;
+}
+.review-form {
+    width: 50%;
+}
+.review-form__title {
+    font-size: var(--fs-600);
+    margin-block: 20px;
+    color:var(--color-primary-300);
+    font-weight: 500;
+}
+
+.review__input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review__input-group:nth-of-type(3) {
+    flex-direction: column;
+    align-items: start;
+}
+
+.review__input-group div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-form__list-item {
+    background-color: var(--color-grey-300);
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    display: block;
+    padding-top: 3px;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+.review__input-group p {
+    font-weight: 500;
+    color: var(--color-primary-300);
+}
+
+.review__input-group .form-control {
+    height: 25px;
+    min-width: 340px;
+    padding: 3px 6px;
+
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    font-size: var(--fs-400);
+}
+.review {
+    width:100%;
+    padding: 3px 6px;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+
+    font-size: var(--fs-500); 
+    font-family:"Roboto";
+    font-size: var(--fs-400);
+}
+
+
+.review:focus {
+    outline: none;
+}
+
+.review__buttons {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.review-form .submit-button {
+    width:150px;
+    text-align: center;
+    padding: 9px;
+    margin-bottom: 1rem;
+    
+    font-size: var(--fs-400);
+    font-weight: 500;
+    border-radius: 8px;
+    letter-spacing: 0.2px;
+    /* background-color: var(--color-accent); */
+    background-image: linear-gradient(to bottom, #f3cb62, #f8df85, #f3cb62, #eeb63e, #eb9f12);
+    cursor: pointer;
+}
+.review-form .preview-button {
+    text-align: center;
+    padding: 9px;
+    margin-bottom: 1rem;
+    
+    font-size: var(--fs-400);
+    font-weight: 500;
+    border-radius: 8px;
+    letter-spacing: 0.2px;
+
+    border: 1px solid var(--color-grey-300);
+    background-color: var(--color-white);
+    cursor: pointer;
+    transition: background 200ms ease-in-out;
+    color: var(--color-primary-300);
+}
+
+.preview-button:hover {
+    background-color: var(--color-grey-100);
 }

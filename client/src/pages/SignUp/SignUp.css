@@ -46,12 +46,14 @@
     font-weight: 500;
     border-radius: 8px;
     letter-spacing: 0.2px;
-    background-color: var(--color-accent);
+    /* background-color: var(--color-accent); */
+    background-image: linear-gradient(to bottom, #f3cb62, #f8df85, #f3cb62, #eeb63e, #eb9f12);
     cursor: pointer;
 }
 
 .signup-card .submit-button:hover {
-    background-color: #f7a132;
+    /* background-color: #f7a132; */
+    /* background-image: linear-gradient(to bottom, #e5bb4b, #f0d46a, #e5bb4b, #dba22c, #d18800); */
 }
 
 .signup-card span {

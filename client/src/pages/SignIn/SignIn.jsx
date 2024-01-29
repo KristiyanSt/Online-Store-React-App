@@ -12,9 +12,10 @@ function SignIn(props) {
             <div className="signin">
                 <div className="signin-card">
                     <h3 className="signin-card__title">Sign In</h3>
-                    <form action="">
+                    <form autocomplete="off" action="">
                         <div className="signin-card__input-group">
                             <input
+                                autocomplete="off"
                                 className="form-control"
                                 type="email"
                                 name="email"

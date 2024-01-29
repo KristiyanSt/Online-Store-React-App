@@ -123,6 +123,11 @@
     font-size: 13px;
 }
 
+.sort .dropdown:focus {
+    outline: none;
+    border: 1px solid hsl(200, 100%, 50%);
+}
+
 .sort .dropdown__button {
     color: var(--color-black);
     text-transform: unset;

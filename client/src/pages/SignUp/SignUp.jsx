@@ -45,9 +45,7 @@ function SignUp(props) {
                                 placeholder="Password"
                             />
                         </div>
-
                         <button type="submit" className="submit-button">Continue</button>
-
                         <span>
                             Already have an account? 
                             <Link to="/signin">Sign in</Link>
