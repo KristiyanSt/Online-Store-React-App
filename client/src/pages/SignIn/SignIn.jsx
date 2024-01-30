@@ -7,7 +7,7 @@ import './SignIn.css';
 function SignIn(props) {
     return (
         <>
-            <Meta title={"Sign In"} />
+            <Meta title="Sign In" />
             <Breadcrumb title="Sign In" />
             <div className="signin">
                 <div className="signin-card">

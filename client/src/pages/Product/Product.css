@@ -1,3 +1,155 @@
+/* 
+    MAIN PRODUCT
+-------------------
+*/
+.main-product {
+    .container {
+        display: flex;
+        gap: 10px;
+    }
+
+    .main-image>div div:last-child {
+        z-index: 100;
+        border: 1px solid var(--color-heading-shade);
+        box-shadow: 2px 4px 16px rgba(0, 0, 0, .16);
+    }
+
+    .main-image img {
+        display: block;
+        object-fit: cover;
+    }
+
+    .images-wrapper {
+        width: 600px;
+    }
+
+    .images-wrapper__text {
+        text-align: center;
+        font-size: 14px;
+        margin-block: 9px;
+        color: var(--color-heading-shade);
+    }
+
+    .other-images-wrapper {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+    }
+
+    .other-image {
+        display: block;
+        width: 115px;
+        height: 115px;
+        object-fit: cover;
+        padding: 4px;
+        border: 1px solid black;
+    }
+
+    .main-product__details {
+        color: var(--color-primary-300);
+        flex-grow: 1;
+    }
+
+    .main-product__title {
+        width: 70%;
+        margin-bottom: 4px;
+
+        color: var(--color-primary-300);
+        font-size: 24px;
+        line-height: 1.4;
+        font-weight: 500;
+    }
+
+    .main-product__rating {
+        display: flex;
+        align-items: baseline;
+        padding-bottom: 14px;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--color-grey-300);
+    }
+
+    .main-product__total-rating {
+        margin-right: 4px;
+    }
+
+    .react-simple-star-rating {
+        margin-right: 24px;
+    }
+
+    .main-product__price {
+        font-size: 32px;
+        font-weight: 400;
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--color-grey-300);
+    }
+
+    .discount {
+        font-size: 23px;
+        align-self: end;
+        font-weight: 300;
+        color: #cc0909;
+        margin-right: 4px;
+    }
+
+    .top-symbol {
+        font-size: 14px;
+        font-weight: 400;
+
+        padding-top: 4px;
+    }
+    .main-product__info {
+        margin-bottom: 1rem;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--color-grey-300);
+    }
+    .info-item {
+        display: flex;
+        margin-bottom: 16px;
+    }
+    .info-item p:first-child {
+        width: 100px;
+        font-weight: 500;
+    }
+
+    .about, feature-rating {
+        margin-bottom: 1rem;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--color-grey-300);
+    }
+    .about__title, .feature__title {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 18px;
+    }
+    .about__list {
+        list-style-type: disc;
+        padding-inline: 20px;
+    }
+    .about__item {
+        margin-bottom: 7px;
+        line-height: 1.2;
+        margin-bottom: 12px;
+    }
+    .feature__item {
+        display: flex;
+        margin-bottom: 5px;
+    }
+    .feature__item p {
+        width: 200px;
+        margin: 0 14px 14px 0px;
+    }
+}
+
+
+/* 
+    REVIEW
+-------------------------
+
+*/
+
 .description .container,
 .reviews .container {
     padding: 20px;
@@ -30,13 +182,15 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
 .review-form {
     width: 50%;
 }
+
 .review-form__title {
     font-size: var(--fs-600);
     margin-block: 20px;
-    color:var(--color-primary-300);
+    color: var(--color-primary-300);
     font-weight: 500;
 }
 
@@ -51,7 +205,7 @@
     align-items: start;
 }
 
-.review__input-group div{
+.review__input-group div {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -84,14 +238,15 @@
     border-radius: 4px;
     font-size: var(--fs-400);
 }
+
 .review {
-    width:100%;
+    width: 100%;
     padding: 3px 6px;
     border: 1px solid var(--color-grey-300);
     border-radius: 4px;
 
-    font-size: var(--fs-500); 
-    font-family:"Roboto";
+    font-size: var(--fs-500);
+    font-family: "Roboto";
     font-size: var(--fs-400);
 }
 
@@ -106,12 +261,13 @@
     gap: 10px;
     margin-top: 20px;
 }
+
 .review-form .submit-button {
-    width:150px;
+    width: 150px;
     text-align: center;
     padding: 9px;
     margin-bottom: 1rem;
-    
+
     font-size: var(--fs-400);
     font-weight: 500;
     border-radius: 8px;
@@ -120,11 +276,12 @@
     background-image: linear-gradient(to bottom, #f3cb62, #f8df85, #f3cb62, #eeb63e, #eb9f12);
     cursor: pointer;
 }
+
 .review-form .preview-button {
     text-align: center;
     padding: 9px;
     margin-bottom: 1rem;
-    
+
     font-size: var(--fs-400);
     font-weight: 500;
     border-radius: 8px;

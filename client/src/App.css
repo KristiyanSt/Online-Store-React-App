@@ -44,6 +44,7 @@ body {
     --color-heading-shade: #6e6e73;
     --color-link: rgb(75, 157, 220);
     --color-accent: #febd69;
+    /* --color-accent: #ffa41c; */
     --color-orange:#df5454;
 
     --fs-300: 0.8125rem;
