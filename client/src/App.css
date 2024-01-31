@@ -35,7 +35,8 @@ body {
     --color-primary-100: #465262;
     --color-primary-300:#232F3E;
     --color-primary-400:#131921;
-
+    --color-blue-bg: #eaeded;
+    
     --color-white: #ffffff;
     --color-black: black;
     --color-grey-100:#f7f7f7;
@@ -56,8 +57,6 @@ body {
     --fs-700: 1.875rem;
     --fs-800: 2.5rem;
 
-    --hero-height: 600px;
-    --section-wrapper-margin: 200px;
 }
 .main {
     position: relative;
@@ -107,4 +106,21 @@ a {
     color: var(--color-white);
     background-color: var(--color-primary-300);
     border-radius: 18px;
+}
+.btn {
+    text-align: center;
+    padding: 9px;
+    border-radius: 8px;
+    width: 100%;
+
+    font-size: var(--fs-400);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    border: 1px solid var(--color-accent);
+    background-image: linear-gradient(to bottom, #f3cb62, #f8df85, #f3cb62, #eeb63e, #eb9f12);
+    cursor: pointer;
+}
+.btn:hover {
+    background-image: unset;
+    background-color: #f9d001
 }

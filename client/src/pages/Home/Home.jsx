@@ -134,8 +134,8 @@ function Home(props) {
                     <div className="services__shipping service">
                         <img className="service__img" src="/assets/images/support.svg" alt="delivery-truck" />
                         <div className="text-container">
-                            <p className="services__title">Free Shipping</p>
-                            <p className="services__text">From all orders over $100</p>
+                            <p className="services__title">Support 24/7</p>
+                            <p className="services__text">Shop with an expert</p>
                         </div>
                     </div>
                     <div className="services__shipping service">

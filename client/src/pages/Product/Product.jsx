@@ -11,40 +11,40 @@ import Meta from '../../components/Meta/Meta.jsx';
 function Product(props) {
 
     const [hasOrdered, setHasOrdered] = useState(true);
-    // const imagesWrapperRef = useRef();
-    const [imagesWrapperStyle, setImageWrapperStyle] = useState({ position: "", top: "", bottom: "" });
+    const imagesWrapperRef = useRef();
+    // const [imagesWrapperStyle, setImagesWrapperStyle] = useState({ position: "", top: "", bottom: "" });
 
     window.onscroll = () => {
         const scrollTop = window.scrollY;
 
         if (scrollTop >= 128 && scrollTop <= 856.84 - 547 + 128) {
-            setImageWrapperStyle({
-                ...imagesWrapperStyle,
-                position: "fixed",
-                top: "0"
-            });
-            // imagesWrapperRef.current.style.position = "fixed";
-            // imagesWrapperRef.current.style.top = "0"
+            // setImagesWrapperStyle({
+            //     ...imagesWrapperStyle,
+            //     position: "fixed",
+            //     top: "0"
+            // });
+            imagesWrapperRef.current.style.position = "fixed";
+            imagesWrapperRef.current.style.top = "0"
         } else if (scrollTop > 856.84 - 547 + 128) {
-            setImageWrapperStyle({
-                ...imagesWrapperStyle,
-                position: "absolute",
-                bottom: "0",
-                top: "unset"
-            });
-            // imagesWrapperRef.current.style.position = "absolute";
-            // imagesWrapperRef.current.style.bottom = "0"
-            // imagesWrapperRef.current.style.top = "unset"
+            // setImagesWrapperStyle({
+            //     ...imagesWrapperStyle,
+            //     position: "absolute",
+            //     bottom: "0",
+            //     top: "unset"
+            // });
+            imagesWrapperRef.current.style.position = "absolute";
+            imagesWrapperRef.current.style.bottom = "0"
+            imagesWrapperRef.current.style.top = "unset"
         } else {
-            setImageWrapperStyle({
-                ...imagesWrapperStyle,
-                position: "unset",
-                bottom: "unset",
-                top: "unset"
-            });
-            // imagesWrapperRef.current.style.position = "unset"
-            // imagesWrapperRef.current.style.top = "unset"
-            // imagesWrapperRef.current.style.bottom = "unset"
+            // setImagesWrapperStyle({
+            //     ...imagesWrapperStyle,
+            //     position: "unset",
+            //     bottom: "unset",
+            //     top: "unset"
+            // });
+            imagesWrapperRef.current.style.position = "unset"
+            imagesWrapperRef.current.style.top = "unset"
+            imagesWrapperRef.current.style.bottom = "unset"
         }
     }
 
@@ -55,7 +55,7 @@ function Product(props) {
             <section className="main-product collection">
                 <div className="container">
                     <div className="images-wrapper">
-                        <div style={imagesWrapperStyle} className="imagesWrapper">
+                        <div ref={imagesWrapperRef} className="imagesWrapper">
                             <div className="main-image">
                                 <ReactImageZoom
                                     width={600}

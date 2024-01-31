@@ -10,6 +10,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 import SignUp from './pages/SignUp/SignUp.jsx';
 import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import Product from './pages/Product/Product.jsx';
+import Cart from './pages/Cart/Cart.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
       </Routes>
     </BrowserRouter>

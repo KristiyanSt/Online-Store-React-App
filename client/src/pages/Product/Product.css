@@ -137,13 +137,14 @@
         line-height: 1.2;
         margin-bottom: 12px;
     }
+    .feature__item:not(:last-of-type) {
+        margin-bottom: 12px;
+    }
     .feature__item {
         display: flex;
-        margin-bottom: 5px;
     }
     .feature__item p {
         width: 200px;
-        margin: 0 14px 14px 0px;
     }
 }
 

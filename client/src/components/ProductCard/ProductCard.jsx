@@ -18,10 +18,10 @@ function ProductCard({ columns }) {
                     <p className="product__price">$100</p>
                 </div>
                 <div className={`${columns <= 2 ? "actions-top" : "actions-right"}`} >
-                    <Link className="actions__link"><img src="/assets/images/market.png" alt="bag" /></Link>
-                    <Link className="actions__link"><img src="/assets/images/view.png" alt="view" /></Link>
-                    <Link className="actions__link"><img src="/assets/images/heart.png" alt="heart" /></Link>
-                    <Link className="actions__link"><img src="/assets/images/compare.png" alt="compare" /></Link>
+                    <button className="actions__link"><img src="/assets/images/market.png" alt="bag" /></button>
+                    {/* <Link className="actions__link"><img src="/assets/images/view.png" alt="view" /></Link> */}
+                    <button className="actions__link"><img src="/assets/images/heart.png" alt="heart" /></button>
+                    <button className="actions__link"><img src="/assets/images/compare.png" alt="compare" /></button>
                 </div>
             </div>
         </Link >
