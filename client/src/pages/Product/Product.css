@@ -5,7 +5,7 @@
 .main-product {
     .container {
         display: flex;
-        gap: 10px;
+        gap: 20px;
     }
 
     .main-image>div div:last-child {
@@ -20,7 +20,11 @@
     }
 
     .images-wrapper {
-        width: 600px;
+        min-width: 600px;
+        position: relative;
+    }
+    .imagesWrapper {
+        width:600px;
     }
 
     .images-wrapper__text {
@@ -51,7 +55,7 @@
     }
 
     .main-product__title {
-        width: 70%;
+        width: 100%;
         margin-bottom: 4px;
 
         color: var(--color-primary-300);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import { Rating } from 'react-simple-star-rating';
 import './Product.css';
@@ -11,6 +11,42 @@ import Meta from '../../components/Meta/Meta.jsx';
 function Product(props) {
 
     const [hasOrdered, setHasOrdered] = useState(true);
+    // const imagesWrapperRef = useRef();
+    const [imagesWrapperStyle, setImageWrapperStyle] = useState({ position: "", top: "", bottom: "" });
+
+    window.onscroll = () => {
+        const scrollTop = window.scrollY;
+
+        if (scrollTop >= 128 && scrollTop <= 856.84 - 547 + 128) {
+            setImageWrapperStyle({
+                ...imagesWrapperStyle,
+                position: "fixed",
+                top: "0"
+            });
+            // imagesWrapperRef.current.style.position = "fixed";
+            // imagesWrapperRef.current.style.top = "0"
+        } else if (scrollTop > 856.84 - 547 + 128) {
+            setImageWrapperStyle({
+                ...imagesWrapperStyle,
+                position: "absolute",
+                bottom: "0",
+                top: "unset"
+            });
+            // imagesWrapperRef.current.style.position = "absolute";
+            // imagesWrapperRef.current.style.bottom = "0"
+            // imagesWrapperRef.current.style.top = "unset"
+        } else {
+            setImageWrapperStyle({
+                ...imagesWrapperStyle,
+                position: "unset",
+                bottom: "unset",
+                top: "unset"
+            });
+            // imagesWrapperRef.current.style.position = "unset"
+            // imagesWrapperRef.current.style.top = "unset"
+            // imagesWrapperRef.current.style.bottom = "unset"
+        }
+    }
 
     return (
         <>
@@ -19,25 +55,28 @@ function Product(props) {
             <section className="main-product collection">
                 <div className="container">
                     <div className="images-wrapper">
-                        <div className="main-image">
-                            <ReactImageZoom
-                                width={600}
-                                height={400}
-                                zoomWidth={700}
-                                offset={{ horizontal: "10" }}
-                                scale={1.4}
-                                img={"https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg"} />
-                        </div>
-                        <p className="images-wrapper__text">Roll over the image to zoom in</p>
-                        <div className="other-images-wrapper">
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                            <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                        <div style={imagesWrapperStyle} className="imagesWrapper">
+                            <div className="main-image">
+                                <ReactImageZoom
+                                    width={600}
+                                    height={400}
+                                    zoomWidth={700}
+                                    offset={{ horizontal: "10" }}
+                                    scale={1.4}
+                                    img={"https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg"}
+                                />
+                            </div>
+                            <p className="images-wrapper__text">Roll over the image to zoom in</p>
+                            <div className="other-images-wrapper">
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                            </div>
                         </div>
                     </div>
                     <div className="main-product__details">
