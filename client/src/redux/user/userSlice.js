@@ -8,6 +8,7 @@ export const signUpUser = createAsyncThunk("auth/signup", async (userData, thunk
         return thunkApi.rejectWithValue(error);
     }
 });
+
 export const signInUser = createAsyncThunk("auth/signin", async (userData, thunkApi) => {
     try {
         return await authService.signIn(userData);
@@ -16,8 +17,12 @@ export const signInUser = createAsyncThunk("auth/signin", async (userData, thunk
     }
 });
 
+const getUserFromLocalStorage = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+    
 const initialState = {
-    user: "",
+    user: getUserFromLocalStorage,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -40,7 +45,8 @@ const authSlice = createSlice({
                 //User created successfully
                 //TODO notify message when notification component is created
                 console.log('success')
-                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('token', JSON.stringify(action.payload.token));
+                localStorage.setItem('user', action.payload);
             }
         }).addCase(signUpUser.rejected, (state, action) => {
             state.isLoading = false;
@@ -63,7 +69,9 @@ const authSlice = createSlice({
                 //User sign in successfully
                 //TODO notify message when notification component is created
                 console.log('success')
-                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('token', JSON.stringify(action.payload.token));
+                localStorage.setItem('user', JSON.stringify(action.payload));
+                console.log(action.payload);
             }
         }).addCase(signInUser.rejected, (state, action) => {
             state.isLoading = false;
