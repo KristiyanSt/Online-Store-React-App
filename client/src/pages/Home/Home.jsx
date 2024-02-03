@@ -163,7 +163,7 @@ function Home(props) {
                         </h4>
                     </div>
                     <div className="products__wrapper">
-                        {Array.from({ length: 5 }).map((x, index) => <ProductCard key={index}/>)}
+                        {/* {Array.from({ length: 5 }).map((x, index) => <ProductCard key={index}/>)} */}
                     </div>
                 </div>
             </section>

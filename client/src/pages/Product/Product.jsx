@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import { Rating } from 'react-simple-star-rating';
 import './Product.css';
@@ -11,9 +11,44 @@ import Meta from '../../components/Meta/Meta.jsx';
 function Product(props) {
 
     const [hasOrdered, setHasOrdered] = useState(true);
-    const imagesWrapperRef = useRef();
     // const [imagesWrapperStyle, setImagesWrapperStyle] = useState({ position: "", top: "", bottom: "" });
+    const imagesWrapperRef = useRef();
+    // useEffect(() => {
 
+    //     window.onscroll = () => {
+    //         const scrollTop = window.scrollY;
+    
+    //         if (scrollTop >= 128 && scrollTop <= 856.84 - 547 + 128) {
+    //             // setImagesWrapperStyle({
+    //             //     ...imagesWrapperStyle,
+    //             //     position: "fixed",
+    //             //     top: "0"
+    //             // });
+    //             imagesWrapperRef.current.style.position = "fixed";
+    //             imagesWrapperRef.current.style.top = "0"
+    //         } else if (scrollTop > 856.84 - 547 + 128) {
+    //             // setImagesWrapperStyle({
+    //             //     ...imagesWrapperStyle,
+    //             //     position: "absolute",
+    //             //     bottom: "0",
+    //             //     top: "unset"
+    //             // });
+    //             imagesWrapperRef.current.style.position = "absolute";
+    //             imagesWrapperRef.current.style.bottom = "0"
+    //             imagesWrapperRef.current.style.top = "unset"
+    //         } else {
+    //             // setImagesWrapperStyle({
+    //             //     ...imagesWrapperStyle,
+    //             //     position: "unset",
+    //             //     bottom: "unset",
+    //             //     top: "unset"
+    //             // });
+    //             imagesWrapperRef.current.style.position = "unset"
+    //             imagesWrapperRef.current.style.top = "unset"
+    //             imagesWrapperRef.current.style.bottom = "unset"
+    //         }
+    //     }
+    // },[]);
     window.onscroll = () => {
         const scrollTop = window.scrollY;
 
@@ -47,7 +82,6 @@ function Product(props) {
             imagesWrapperRef.current.style.bottom = "unset"
         }
     }
-
     return (
         <>
             <Breadcrumb title="Product name" />
@@ -232,7 +266,7 @@ function Product(props) {
                                 <textarea
                                     placeholder="Write your review"
                                     className="review"
-                                    maxlength="400"
+                                    maxLength="400"
                                     name="review"
                                     cols="10"
                                     rows="3"></textarea>
@@ -254,7 +288,7 @@ function Product(props) {
                         </h4>
                     </div>
                     <div className="products__wrapper">
-                        {Array.from({ length: 5 }).map((x, index) => <ProductCard key={index} />)}
+                        {/* {Array.from({ length: 5 }).map((x, index) => <ProductCard key={index} />)} */}
                     </div>
                 </div>
             </section>

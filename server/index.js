@@ -3,6 +3,7 @@ const dbConnect = require("./config/database.js");
 const dotenv = require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 const app = express();
+const cors = require('cors');
 
 const authRouter = require('./routes/authRoute.js');
 const blogRouter = require('./routes/blogRoute.js');
@@ -18,6 +19,9 @@ const cookieParser = require("cookie-parser");
 const morgan = require('morgan');
 
 dbConnect();
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

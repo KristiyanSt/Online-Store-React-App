@@ -2,20 +2,34 @@ import React from 'react';
 import './ProductCard.css';
 import { Link, useLocation } from 'react-router-dom';
 
-function ProductCard({ columns }) {
+function ProductCard({
+    columns,
+    product: {
+        brand,
+        category,
+        color,
+        description,
+        images,
+        price,
+        quantity,
+        title,
+        totalrating,
+        _id
+    } }) {
+
     const location = useLocation();
 
     return <div className={`product-card ${location.pathname === '/' ? "product-card-scale" : ""}`}>
         <Link>
             <div className={`product-card__content ${columns <= 2 ? "content-row" : ""}`}>
                 <div className="image__wrapper">
-                    <img className="product-card__image" src="/assets/images/apple-watch.jpg" alt="watch" />
-                    <img className="product-card__image-secondary" src="/assets/images/watch-secondary.jpg" alt="watch-secondary" />
+                    <img className="product-card__image" src={images[0]?.url || ""} alt="watch" />
+                    <img className="product-card__image-secondary" src={images[1]?.url || ""} alt="watch-secondary" />
                 </div>
                 <div className="product__details">
-                    <p className="product__brand">Apple</p>
-                    <h5 className="product__title">Apple Watch SE (GPS + Cellular, 44mm) - Silver Aluminum Case</h5>
-                    <p className="product__price">$100</p>
+                    <p className="product__brand">{brand}</p>
+                    <h5 className="product__title">{title}</h5>
+                    <p className="product__price">${price}</p>
                 </div>
                 <div className={`${columns <= 2 ? "actions-top" : "actions-right"}`} >
                     <button className="actions__link"><img src="/assets/images/market.png" alt="bag" /></button>

@@ -14,8 +14,8 @@ const uniqid = require('uniqid');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
-    const findAdmin = await User.findOne({ email });
-    if (!findAdmin) {
+    const findUser = await User.findOne({ email });
+    if (!findUser) {
         //Create a new user
         const newUser = await User.create(req.body);
         res.json(newUser);
@@ -27,11 +27,11 @@ const createUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     //check if user exists 
-    const findAdmin = await User.findOne({ email });
-    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
-        const refreshToken = generateRefreshToken(findAdmin?._id);
+    const findUser = await User.findOne({ email });
+    if (findUser && (await findUser.isPasswordMatched(password))) {
+        const refreshToken = generateRefreshToken(findUser?._id);
         const updateUser = await User.findByIdAndUpdate(
-            findAdmin?._id,
+            findUser?._id,
             {
                 refreshToken
             },
@@ -44,11 +44,11 @@ const loginUser = asyncHandler(async (req, res) => {
             maxAge: 72 * 60 * 60 * 1000
         });
         res.json({
-            _id: findAdmin?._id,
-            firstname: findAdmin?.firstname,
-            lastname: findAdmin?.lastname,
-            email: findAdmin?.email,
-            token: generateToken(findAdmin?._id)
+            _id: findUser?._id,
+            firstname: findUser?.firstname,
+            lastname: findUser?.lastname,
+            email: findUser?.email,
+            token: generateToken(findUser?._id)
         });
     } else {
         throw new Error("Invalid Credentials");

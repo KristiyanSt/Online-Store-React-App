@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Store.css';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import Meta from '../../components/Meta/Meta.jsx';
 import { Link } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../../redux/products/productSlice.js';
 
 function Store(props) {
     const [isOpen, setIsOpen] = useState(false);
     const [columns, setColumns] = useState(4);
+    const dispatch = useDispatch();
+
+    const products = useSelector((state) => state.product.product || []);
+    console.log(products);
+
+    const getProducts = () => {
+        dispatch(getAllProducts());
+    }
+
+    useEffect(() => {
+        getProducts();
+    },[])
+
+
 
     const changeGridColumns = (columns) => {
         setColumns(columns);
@@ -85,11 +101,7 @@ function Store(props) {
                         <div
                             className="products-list"
                             style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`}}>
-                        <ProductCard columns={columns}/>
-                        <ProductCard columns={columns}/>
-                        <ProductCard columns={columns}/>
-                        <ProductCard columns={columns}/>
-                        <ProductCard columns={columns}/>
+                                {products.map(p => <ProductCard columns={columns} product={p} key={p?._id}/>)}
                     </div>
                 </div>
             </div>
