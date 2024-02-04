@@ -17,10 +17,18 @@ export const signInUser = createAsyncThunk("auth/signin", async (userData, thunk
     }
 });
 
+export const getUserWishlist = createAsyncThunk("auth/wishlist", async (thunkApi) => {
+    try {
+        return await authService.getWishlist()
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+
 const getUserFromLocalStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
-    
+
 const initialState = {
     user: getUserFromLocalStorage,
     isError: false,
@@ -71,7 +79,6 @@ const authSlice = createSlice({
                 console.log('success')
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
                 localStorage.setItem('user', JSON.stringify(action.payload));
-                console.log(action.payload);
             }
         }).addCase(signInUser.rejected, (state, action) => {
             state.isLoading = false;
@@ -83,6 +90,18 @@ const authSlice = createSlice({
                 //TODO notify message when notification component is created
                 console.log('error')
             }
+        }).addCase(getUserWishlist.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getUserWishlist.fulfilled, (state, action) => {
+            state.isError = false;
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.wishlist = action.payload
+        }).addCase(getUserWishlist.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.message = action.error;
         })
     }
 });

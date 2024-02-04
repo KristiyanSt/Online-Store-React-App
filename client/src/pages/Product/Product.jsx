@@ -2,90 +2,57 @@ import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import { Rating } from 'react-simple-star-rating';
 import './Product.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import ReactImageZoom from 'react-image-zoom';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import Meta from '../../components/Meta/Meta.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSingleProduct } from '../../redux/products/productSlice.js';
 
 function Product(props) {
+    const productId = useParams().id;
+    const dispatch = useDispatch();
+    const product = useSelector(state => state.product.singleProduct);
+    useEffect(() => {
+        dispatch(getSingleProduct(productId));
+    }, []);
+
+
 
     const [hasOrdered, setHasOrdered] = useState(true);
-    // const [imagesWrapperStyle, setImagesWrapperStyle] = useState({ position: "", top: "", bottom: "" });
     const imagesWrapperRef = useRef();
-    // useEffect(() => {
+    const productDetailsRef = useRef();
+    // const headerRef = useRef();
+    useEffect(() => {
 
-    //     window.onscroll = () => {
-    //         const scrollTop = window.scrollY;
-    
-    //         if (scrollTop >= 128 && scrollTop <= 856.84 - 547 + 128) {
-    //             // setImagesWrapperStyle({
-    //             //     ...imagesWrapperStyle,
-    //             //     position: "fixed",
-    //             //     top: "0"
-    //             // });
-    //             imagesWrapperRef.current.style.position = "fixed";
-    //             imagesWrapperRef.current.style.top = "0"
-    //         } else if (scrollTop > 856.84 - 547 + 128) {
-    //             // setImagesWrapperStyle({
-    //             //     ...imagesWrapperStyle,
-    //             //     position: "absolute",
-    //             //     bottom: "0",
-    //             //     top: "unset"
-    //             // });
-    //             imagesWrapperRef.current.style.position = "absolute";
-    //             imagesWrapperRef.current.style.bottom = "0"
-    //             imagesWrapperRef.current.style.top = "unset"
-    //         } else {
-    //             // setImagesWrapperStyle({
-    //             //     ...imagesWrapperStyle,
-    //             //     position: "unset",
-    //             //     bottom: "unset",
-    //             //     top: "unset"
-    //             // });
-    //             imagesWrapperRef.current.style.position = "unset"
-    //             imagesWrapperRef.current.style.top = "unset"
-    //             imagesWrapperRef.current.style.bottom = "unset"
-    //         }
-    //     }
-    // },[]);
-    window.onscroll = () => {
-        const scrollTop = window.scrollY;
+        window.onscroll = () => {
+            const scrollTop = window.scrollY;
 
-        if (scrollTop >= 128 && scrollTop <= 856.84 - 547 + 128) {
-            // setImagesWrapperStyle({
-            //     ...imagesWrapperStyle,
-            //     position: "fixed",
-            //     top: "0"
-            // });
-            imagesWrapperRef.current.style.position = "fixed";
-            imagesWrapperRef.current.style.top = "0"
-        } else if (scrollTop > 856.84 - 547 + 128) {
-            // setImagesWrapperStyle({
-            //     ...imagesWrapperStyle,
-            //     position: "absolute",
-            //     bottom: "0",
-            //     top: "unset"
-            // });
-            imagesWrapperRef.current.style.position = "absolute";
-            imagesWrapperRef.current.style.bottom = "0"
-            imagesWrapperRef.current.style.top = "unset"
-        } else {
-            // setImagesWrapperStyle({
-            //     ...imagesWrapperStyle,
-            //     position: "unset",
-            //     bottom: "unset",
-            //     top: "unset"
-            // });
-            imagesWrapperRef.current.style.position = "unset"
-            imagesWrapperRef.current.style.top = "unset"
-            imagesWrapperRef.current.style.bottom = "unset"
+            const productDetailsHeight = productDetailsRef.current.clientHeight;
+            const imagesWrapperHeight = imagesWrapperRef.current.clientHeight;
+
+            const offset = productDetailsHeight - 547 + 128;
+
+            if (scrollTop >= 128 && scrollTop <= offset) {
+                imagesWrapperRef.current.style.position = "fixed";
+                imagesWrapperRef.current.style.top = "0"
+            } else if (scrollTop > offset) {
+                imagesWrapperRef.current.style.position = "absolute";
+                imagesWrapperRef.current.style.bottom = "0"
+                imagesWrapperRef.current.style.top = "unset"
+            } else {
+                imagesWrapperRef.current.style.top = "unset"
+                imagesWrapperRef.current.style.position = "unset"
+                imagesWrapperRef.current.style.bottom = "unset"
+            }
         }
-    }
+    }, []);
+
     return (
         <>
-            <Breadcrumb title="Product name" />
-            <Meta title="Product name" />
+            <Breadcrumb title={product?.title} />
+            <Meta title={product?.title} />
             <section className="main-product collection">
                 <div className="container">
                     <div className="images-wrapper">
@@ -97,33 +64,37 @@ function Product(props) {
                                     zoomWidth={700}
                                     offset={{ horizontal: "10" }}
                                     scale={1.4}
-                                    img={"https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg"}
+                                    // zoomLensStyle={"width: 100px; height: 100px; background-color: black;"}
+                                    img={product ? product?.images[1]?.url : " "}
+                                // img="https://m.media-amazon.com/images/I/61e5OvLIlMS._AC_SL1500_.jpg"
                                 />
                             </div>
                             <p className="images-wrapper__text">Roll over the image to zoom in</p>
                             <div className="other-images-wrapper">
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
-                                <img className="other-image" src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg" alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
+                                <img className="other-image" src={product && product?.images[1]?.url} alt="" />
                             </div>
                         </div>
                     </div>
-                    <div className="main-product__details">
-                        <h4 className="main-product__title">DEWALT 20V Max Cordless Drill / Driver Kit, Compact, 1/2-Inch (DCD771C2), Dewalt Yellow</h4>
+                    <div ref={productDetailsRef} className="main-product__details">
+                        <h4 className="main-product__title">
+                            {product?.title}
+                        </h4>
                         <div className="main-product__rating">
-                            <span className="main-product__total-rating">4.6</span>
+                            <span className="main-product__total-rating">{product?.totalrating}</span>
                             <Rating
                                 allowFraction
                                 size={19}
-                                initialValue={4.5}
+                                initialValue={product?.totalrating}
                                 fillColor={"#ffa41c"}
                             />
-                            <a href="#reviews" className="main-product__ratings-count">41,946 ratings</a>
+                            <a href="#reviews" className="main-product__ratings-count">{product?.ratings?.length} ratings</a>
                         </div>
                         <div className="main-product__price">
                             <div className="discount">-35%</div>
@@ -134,23 +105,19 @@ function Product(props) {
                         <div className="main-product__info">
                             <div className="info-item">
                                 <p>Brand</p>
-                                <p>Dewalt</p>
+                                <p>{product?.brand}</p>
                             </div>
                             <div className="info-item">
                                 <p>Color</p>
-                                <p>Black/yellow</p>
+                                <p>{product?.color}</p>
                             </div>
                             <div className="info-item">
                                 <p>Category</p>
-                                <p>Mechanics</p>
+                                <p>{product?.category}</p>
                             </div>
                             <div className="info-item">
                                 <p>Availability</p>
-                                <p>In Stock</p>
-                            </div>
-                            <div className="info-item">
-                                <p>Brand</p>
-                                <p>Dewalt</p>
+                                <p>{product?.quantity >= 1 ? "In Stock" : "Out of Stock"}</p>
                             </div>
                         </div>
                         <div className="about">
@@ -208,7 +175,7 @@ function Product(props) {
                         </h4>
                     </div>
                     <p className="description__text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint velit, nulla, rerum, exercitationem asperiores distinctio deserunt cum natus quod omnis ex pariatur suscipit. Perspiciatis tempora est molestiae harum, impedit autem!
+                        {product?.description}
                     </p>
                 </div>
             </section>

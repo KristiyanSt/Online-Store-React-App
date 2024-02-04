@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productService from "./productService.js";
 
 export const getAllProducts = createAsyncThunk(
-    "product/get",
+    "products/getAllProducts",
     async (thunkApi) => {
         try {
             return await productService.getProducts();
@@ -10,8 +10,9 @@ export const getAllProducts = createAsyncThunk(
             return thunkApi.rejectWithValue(error);
         }
     });
+    
 export const addToWishlist = createAsyncThunk(
-    "product/wishlist",
+    "products/wishlist",
     async (productId,thunkApi) => {
         try {
             return await productService.addToWishlist(productId);
@@ -20,27 +21,38 @@ export const addToWishlist = createAsyncThunk(
         }
     });
 
+export const getSingleProduct = createAsyncThunk(
+    "products/getSingleProduct",
+    async(productId, thunkApi) => {
+        try {
+            return productService.getSingleProduct(productId);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    }
+)
+
 const initialState = {
-    product: "",
+    products: "",
+    singleProduct: "",
+    message: "",
     isError: false,
     isSuccess: false,
-    isLoading: false,
-    message: ""
+    isLoading: false
 }
 
 const productSlice = createSlice({
-    name: "product",
+    name: "products",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getAllProducts.pending, (state) => {
             state.isLoading = true;
-
         }).addCase(getAllProducts.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.product = action.payload;
+            state.products = action.payload;
         }).addCase(getAllProducts.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
@@ -59,7 +71,19 @@ const productSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        })
+        }).addCase(getSingleProduct.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getSingleProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.singleProduct = action.payload;
+        }).addCase(getSingleProduct.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        });
     }
 });
 
