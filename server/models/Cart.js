@@ -7,8 +7,7 @@ const CartSchema = new Schema({
                 type: ObjectId,
                 ref: "Product"
             },
-            count: Number,
-            color: String,
+            count: Number
         }
     ],
     orderBy: {

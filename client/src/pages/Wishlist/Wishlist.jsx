@@ -4,7 +4,7 @@ import Meta from '../../components/Meta/Meta.jsx';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserWishlist } from '../../redux/user/userSlice.js';
-import { addToWishlist } from '../../redux/products/productSlice.js';
+import { addToWishlist } from '../../redux/user/userSlice.js';
 
 
 function Wishlist(props) {
@@ -22,7 +22,7 @@ function Wishlist(props) {
         getWishlist();
     }, []);
 
-    const wishlist = useSelector(state => state.auth.wishlist?.wishlist);
+    const wishlist = useSelector(state => state.auth?.wishlist);
 
     return (
         <>

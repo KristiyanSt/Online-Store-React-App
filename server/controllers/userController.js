@@ -275,6 +275,24 @@ const getWishList = asyncHandler(async (req, res) => {
     }
 });
 
+const addToWishlist = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    const { productId } = req.body;
+    try {
+        const user = await User.findById(_id);
+        const hasAdded = user.wishlist.some(id => id.toString() === productId);
+        if (hasAdded) {
+            user.wishlist.pull({ _id: productId });
+            return res.json(await user.save());
+        } else {
+            user.wishlist.push({ _id: productId });
+            return res.json(await user.save());
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
 const saveAddress = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     const { address } = req.body;
@@ -473,6 +491,7 @@ module.exports = {
     forgotPasswordToken,
     resetPassword,
     getWishList,
+    addToWishlist,
     saveAddress,
     userCart,
     getUserCart,

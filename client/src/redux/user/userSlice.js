@@ -1,29 +1,44 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./userService.js";
 
-export const signUpUser = createAsyncThunk("auth/signup", async (userData, thunkApi) => {
-    try {
-        return await authService.signUp(userData);
-    } catch (error) {
-        return thunkApi.rejectWithValue(error);
-    }
-});
+export const signUpUser = createAsyncThunk(
+    "auth/signup",
+    async (userData, thunkApi) => {
+        try {
+            return await authService.signUp(userData);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    });
 
-export const signInUser = createAsyncThunk("auth/signin", async (userData, thunkApi) => {
-    try {
-        return await authService.signIn(userData);
-    } catch (error) {
-        return thunkApi.rejectWithValue(error);
-    }
-});
+export const signInUser = createAsyncThunk(
+    "auth/signin",
+    async (userData, thunkApi) => {
+        try {
+            return await authService.signIn(userData);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    });
 
-export const getUserWishlist = createAsyncThunk("auth/wishlist", async (thunkApi) => {
-    try {
-        return await authService.getWishlist()
-    } catch (error) {
-        return thunkApi.rejectWithValue(error);
-    }
-})
+export const getUserWishlist = createAsyncThunk(
+    "auth/getWishlist",
+    async (thunkApi) => {
+        try {
+            return await authService.getWishlist()
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    });
+export const addToWishlist = createAsyncThunk(
+    "auth/addToWishlist",
+    async (productId, thunkApi) => {
+        try {
+            return await authService.addToWishlist(productId);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    });
 
 const getUserFromLocalStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -48,7 +63,7 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.createdUser = action.payload;
+            state.user = action.payload;
             if (state.isSuccess === true) {
                 //User created successfully
                 //TODO notify message when notification component is created
@@ -85,6 +100,7 @@ const authSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
+            //TODO remove user/token from localStorage
             if (state.isError === true) {
                 //action.error
                 //TODO notify message when notification component is created
@@ -96,10 +112,23 @@ const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             state.isLoading = false;
-            state.wishlist = action.payload
+            state.wishlist = action.payload.wishlist;
         }).addCase(getUserWishlist.rejected, (state, action) => {
             state.isError = true;
             state.isLoading = false;
+            state.isSuccess = false;
+            state.message = action.error;
+        }).addCase(addToWishlist.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(addToWishlist.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.wishlist = action.payload.wishlist;
+            state.message = "Product added to wishlist";
+        }).addCase(addToWishlist.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
         })

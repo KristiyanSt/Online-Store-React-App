@@ -24,11 +24,26 @@ const getWishlist = async () => {
         return response.data;
     }
 }
+const addToWishlist = async (productId) => {
+    const response = await axios.put(`${BASE_URL}user/wishlist`, { productId }, config);
 
+    if (response.data) {
+        return response.data;
+    }
+}
+
+const setCart = async (cart) => {
+    const response = await axios.post(`${BASE_URL}user/cart`, { cart }, config);
+    if(response.data) {
+        return response.data;
+    }
+}
 const authService = {
     signUp,
     signIn,
-    getWishlist
+    getWishlist,
+    addToWishlist,
+    setCart
 }
 
 export default authService;

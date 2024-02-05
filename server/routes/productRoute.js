@@ -1,11 +1,11 @@
 const asyncHandler = require('express-async-handler');
-const { createProduct, getProduct, getAllProducts, updateProduct, deleteProduct, addToWishlist, rating, uploadProductImages } = require('../controllers/productController.js');
+const { createProduct, getProduct, getAllProducts, updateProduct, deleteProduct, rating, uploadProductImages } = require('../controllers/productController.js');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware.js');
 const { uploadPhoto, productImgResize } = require('../middlewares/uploadImages.js');
 
 const router = require('express').Router();
 
-router.put('/wishlist', authMiddleware, addToWishlist);
+
 router.post(
     '/upload/:id',
     authMiddleware,

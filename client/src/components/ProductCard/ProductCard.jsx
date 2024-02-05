@@ -2,7 +2,7 @@ import React from 'react';
 import './ProductCard.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToWishlist as addToWishlistAction } from '../../redux/products/productSlice.js';
+import { addToWishlist } from '../../redux/user/userSlice.js';
 
 function ProductCard({
     columns,
@@ -21,9 +21,9 @@ function ProductCard({
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const addToWishlist = (ev, productId) => {
+    const addToWishlistHandler = (ev, productId) => {
         ev.preventDefault();
-        dispatch(addToWishlistAction(productId))
+        dispatch(addToWishlist(productId))
     }
 
     return <div className={`product-card ${location.pathname === '/' ? "product-card-scale" : ""}`}>
@@ -40,7 +40,7 @@ function ProductCard({
                 </div>
                 <div className={`${columns <= 2 ? "actions-top" : "actions-right"}`} >
                     <button className="actions__link"><img src="/assets/images/market.png" alt="bag" /></button>
-                    <button className="actions__link" onClick={(ev) => addToWishlist(ev, _id)}><img src="/assets/images/heart.png" alt="heart" /></button>
+                    <button className="actions__link" onClick={(ev) => addToWishlistHandler(ev, _id)}><img src="/assets/images/heart.png" alt="heart" /></button>
                     <button className="actions__link"><img src="/assets/images/compare.png" alt="compare" /></button>
                 </div>
             </div>

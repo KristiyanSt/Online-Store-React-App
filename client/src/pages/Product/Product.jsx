@@ -8,7 +8,9 @@ import ReactImageZoom from 'react-image-zoom';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import Meta from '../../components/Meta/Meta.jsx';
 import { useDispatch, useSelector } from 'react-redux';
+import { addToWishlist } from '../../redux/user/userSlice.js';
 import { getSingleProduct } from '../../redux/products/productSlice.js';
+
 
 function Product(props) {
     const productId = useParams().id;
@@ -16,22 +18,23 @@ function Product(props) {
     const product = useSelector(state => state.product.singleProduct);
     useEffect(() => {
         dispatch(getSingleProduct(productId));
-    }, []);
+    }, [productId]);
 
-
+    const addToWishlistHandler = (ev, productId) => {
+        ev.preventDefault();
+        dispatch(addToWishlist(productId))
+    }
 
     const [hasOrdered, setHasOrdered] = useState(true);
     const imagesWrapperRef = useRef();
     const productDetailsRef = useRef();
     // const headerRef = useRef();
     useEffect(() => {
-
-        window.onscroll = () => {
+        const attachImages = () => {
             const scrollTop = window.scrollY;
 
             const productDetailsHeight = productDetailsRef.current.clientHeight;
             const imagesWrapperHeight = imagesWrapperRef.current.clientHeight;
-
             const offset = productDetailsHeight - 547 + 128;
 
             if (scrollTop >= 128 && scrollTop <= offset) {
@@ -46,6 +49,11 @@ function Product(props) {
                 imagesWrapperRef.current.style.position = "unset"
                 imagesWrapperRef.current.style.bottom = "unset"
             }
+        }
+        window.addEventListener('scroll', attachImages);
+
+        return () => {
+            window.removeEventListener('scroll', attachImages);
         }
     }, []);
 
@@ -99,7 +107,7 @@ function Product(props) {
                         <div className="main-product__price">
                             <div className="discount">-35%</div>
                             <div className="top-symbol">&#65284;</div>
-                            99
+                            {product?.price}
                             <div className="top-symbol">00</div>
                         </div>
                         <div className="main-product__info">
@@ -162,11 +170,28 @@ function Product(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="cart">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque sequi, illum reprehenderit facilis tenetur alias quae sunt error mollitia incidunt magnam assumenda rem debitis eius ullam quas eos ducimus doloremque!</p>
+                    <div className="main-product__preview">
+                        <div className="main-product__price">
+                            {/* <div className="discount">-35%</div> */}
+                            <div className="top-symbol">&#65284;</div>
+                            {product?.price}
+                            <div className="top-symbol">00</div>
+                        </div>
+                        <div className="main-product__quantity">
+                            <select value={`Qty: 3`} name="quantity" id="quantity">
+                                <option value="0" selected disabled>Qty</option>
+                                <option value="1">1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                            </select>
+                        </div>
+                        <div className="main-product__action-buttons">
+                            <button onClick={(ev) => addToWishlistHandler(ev, productId)} className="proceed-btn btn">Add to wishlist</button>
+                            <button className="proceed-btn btn">Add to cart</button>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </section >
             <section className="description collection">
                 <div className="container">
                     <div className="header">

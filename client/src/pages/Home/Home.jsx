@@ -11,7 +11,6 @@ const bannerImages = [bannerImage1, bannerImage2, bannerImage3, bannerImage4];
 
 function Home(props) {
     const [slide, setSlide] = useState(0);
-
     const onLeftClick = () => {
         if (slide == 0) {
             return setSlide(bannerImages.length - 1);
@@ -27,8 +26,8 @@ function Home(props) {
     }
 
     useEffect(() => {
-        const interval = setInterval(onRightClick, 8000);
-        return () => clearInterval(interval);
+        const autoSlideInterval = setInterval(onRightClick, 8000);
+        return () => clearInterval(autoSlideInterval);
     }, [slide]);
 
     return (
