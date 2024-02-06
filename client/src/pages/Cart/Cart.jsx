@@ -3,7 +3,7 @@ import Meta from '../../components/Meta/Meta.jsx';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import './Cart.css';
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from '../../redux/user/userSlice.js';
+import { getCart, removeFromCart } from '../../redux/user/userSlice.js';
 import CartProduct from './CartProduct.jsx';
 import { Link } from 'react-router-dom';
 
@@ -19,9 +19,7 @@ function Cart(props) {
     useEffect(() => {
         getCartHandler();
     }, [])
-    // const setCartHandler =  () => {
 
-    // }
     return (
         <>
             <Meta title={"Shopping cart"} />

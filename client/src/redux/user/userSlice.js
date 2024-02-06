@@ -60,6 +60,16 @@ export const addToCart = createAsyncThunk(
         }
     }
 )
+export const removeFromCart = createAsyncThunk(
+    "auth/removeFromCart",
+    async (productData,thunkApi) => {
+        try {
+            return await authService.removeFromCart(productData);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error);
+        }
+    }
+)
 const getUserFromLocalStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
@@ -175,7 +185,19 @@ const authSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        })
+        }).addCase(removeFromCart.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(removeFromCart.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.cart = action.payload;
+        }).addCase(removeFromCart.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        });
     }
 });
 

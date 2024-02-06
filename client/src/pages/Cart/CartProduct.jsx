@@ -1,6 +1,9 @@
 import React from 'react';
 import './Cart.css'
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from '../../redux/user/userSlice.js';
 function CartProduct({
+    _id,
     images,
     title,
     price,
@@ -8,6 +11,12 @@ function CartProduct({
     color,
     count
 }) {
+    const dispatch = useDispatch();
+    const removeFromCartHandler =  (productId) => {
+        console.log(productId)
+        dispatch(removeFromCart(productId))
+    }
+
     return (
         <div className="cart__product">
             <input className="select-item" type="checkbox" />
@@ -43,7 +52,7 @@ function CartProduct({
                         <option value="2" >2</option>
                         <option value="3" >3</option>
                     </select>
-                    <button className="delete-product">Remove</button>
+                    <button onClick={() => removeFromCartHandler(_id)}className="delete-product">Remove</button>
                 </div>
             </div>
         </div>

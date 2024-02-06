@@ -21,9 +21,8 @@ const CartSchema = new Schema({
     timestamps: true
 });
 
-const Cart = model("Cart", CartSchema);
 CartSchema.pre("save", async function (next) {
-    let computeTotalPrice;
+    let computeTotalPrice = 0;
     for (const cartProduct of this.products) {
         const productId = cartProduct.product;
         const actualProduct = await Product.findById(productId);
@@ -33,4 +32,6 @@ CartSchema.pre("save", async function (next) {
     this.cartTotal = computeTotalPrice;
     next();
 });
+
+const Cart = model("Cart", CartSchema);
 module.exports = Cart;

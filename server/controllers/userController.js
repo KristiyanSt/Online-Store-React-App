@@ -360,7 +360,7 @@ const addToCart = asyncHandler(async (req, res) => {
             product:productId,
             count: count
         }
-        console.log(_id, productId);
+
         const existCart = await Cart.findOne({ orderBy: _id });
         if (!existCart) {
             const newCart = await new Cart({
@@ -383,7 +383,27 @@ const addToCart = asyncHandler(async (req, res) => {
         throw new Error(error);
     }
 })
+const removeFromCart = asyncHandler(async (req,res) => {
+    const { productId} = req.body;
+    const { _id } = req.user;
+    validateDbId(_id);
 
+    try {        
+        const existCart = await Cart.findOne({ orderBy: _id });
+        if (!existCart) {
+            throw new Error('Cart doesn\'t exist');
+        }
+        
+        const findProduct = existCart.products.find(p => p.product.toString() === productId);
+        if (findProduct) {
+            await existCart.products.pull({_id: findProduct._id});
+        }
+        await existCart.save();
+        res.json(await existCart.populate("products.product"));
+    } catch (error) {
+        throw new Error(error);
+    }
+})
 const getUserCart = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     validateDbId(_id);
@@ -530,6 +550,7 @@ module.exports = {
     saveAddress,
     userCart,
     addToCart,
+    removeFromCart,
     getUserCart,
     emptyCart,
     applyCoupon,
