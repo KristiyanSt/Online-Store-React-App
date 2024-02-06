@@ -31,9 +31,14 @@ const addToWishlist = async (productId) => {
         return response.data;
     }
 }
-
-const setCart = async (cart) => {
-    const response = await axios.post(`${BASE_URL}user/cart`, { cart }, config);
+const getCart = async () => {
+    const response = await axios.get(`${BASE_URL}user/cart`, config);
+    if (response.data) {
+        return response.data;
+    }
+}
+const addToCart = async (productData) => {
+    const response = await axios.post(`${BASE_URL}user/add-to-cart`,  productData , config);
     if(response.data) {
         return response.data;
     }
@@ -43,7 +48,8 @@ const authService = {
     signIn,
     getWishlist,
     addToWishlist,
-    setCart
+    getCart,
+    addToCart
 }
 
 export default authService;

@@ -8,7 +8,7 @@ import ReactImageZoom from 'react-image-zoom';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import Meta from '../../components/Meta/Meta.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToWishlist } from '../../redux/user/userSlice.js';
+import { addToWishlist, addToCart } from '../../redux/user/userSlice.js';
 import { getSingleProduct } from '../../redux/products/productSlice.js';
 
 
@@ -24,6 +24,11 @@ function Product(props) {
         ev.preventDefault();
         dispatch(addToWishlist(productId))
     }
+    const addToCartHandler = (productData) => {
+        dispatch(addToCart(productData))
+    }
+
+
 
     const [hasOrdered, setHasOrdered] = useState(true);
     const imagesWrapperRef = useRef();
@@ -187,7 +192,7 @@ function Product(props) {
                         </div>
                         <div className="main-product__action-buttons">
                             <button onClick={(ev) => addToWishlistHandler(ev, productId)} className="proceed-btn btn">Add to wishlist</button>
-                            <button className="proceed-btn btn">Add to cart</button>
+                            <button onClick={() => addToCartHandler({count: 1, productId})}className="proceed-btn btn">Add to cart</button>
                         </div>
                     </div>
                 </div>

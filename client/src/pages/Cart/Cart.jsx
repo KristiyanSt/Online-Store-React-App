@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Meta from '../../components/Meta/Meta.jsx';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
 import './Cart.css';
-
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from '../../redux/user/userSlice.js';
+import CartProduct from './CartProduct.jsx';
+import { Link } from 'react-router-dom';
 
 function Cart(props) {
+
+
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.auth?.cart);
+
+    const getCartHandler = () => {
+        dispatch(getCart());
+    }
+    useEffect(() => {
+        getCartHandler();
+    }, [])
+    // const setCartHandler =  () => {
+
+    // }
     return (
         <>
             <Meta title={"Shopping cart"} />
@@ -12,84 +29,40 @@ function Cart(props) {
             <section className="cart collection">
                 <div className="container">
                     <div className="cart__products">
-                        <div className="cart__header">
-                            <h2 className="cart__title">Shopping Cart</h2>
-                            <p className="cart__price">Price</p>
-                        </div>
-                        <div className="cart__product">
-                            <input className="select-item" type="checkbox" />
-                            <div className="cart__product--image-wrapper">
-                                <img
-                                    src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="cart__product--details">
-                                <div className="cart__product--header">
-                                    <h5 className="cart__product--title">DEWALT 20V Max Cordless Drill / Driver Kit, Compact, 1/2-Inch (DCD771C2), Dewalt Yellow</h5>
-                                    <p className="cart__product--price">$83.89</p>
-                                </div>
-                                <div className="cart__product--info">
-                                    <div className="info-item">
-                                        <p>Availability</p>
-                                        <p>In Stock</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <p>Color</p>
-                                        <p>Blue</p>
-                                    </div>
-                                </div>
-                                <div className="cart__product--quantity">
-                                    <select value={`Qty: 3`} name="quantity" id="quantity">
-                                        <option value="0" selected disabled>Qty</option>
-                                        <option value="1">1</option>
-                                        <option value="2" >2</option>
-                                        <option value="3" >3</option>
-                                    </select>
-                                    <button className="delete-product">Delete</button>
+                        {!cart ? (
+                            <div className="empty-cart">
+                                <img src="/assets/images/empty-cart.png" alt='' />
+                                <div className="empty-cart__desc">
+                                    <h2 className="empty-cart__title">Your Storish cart is empty</h2>
+                                    <Link to="/store" className="empty-cart__link">Shop today's deals</Link>
                                 </div>
                             </div>
-                        </div>
-                        <div className="cart__product">
-                            <input className="select-item" type="checkbox" />
-                            <div className="cart__product--image-wrapper">
-                                <img
-                                    src="https://media.wired.com/photos/62a3a0ab9f83b5bb2aa0b416/master/w_1600%2Cc_limit/Casio-PRW-61-Gear.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="cart__product--details">
-                                <div className="cart__product--header">
-                                    <h5 className="cart__product--title">DEWALT 20V Max Cordless Drill / Driver Kit, Compact, 1/2-Inch (DCD771C2), Dewalt Yellow</h5>
-                                    <p className="cart__product--price">$83.89</p>
+                        ) : (
+                            <>
+                                <div className="cart__header">
+                                    <h2 className="cart__title">Shopping Cart</h2>
+                                    <p className="cart__price">Price</p>
                                 </div>
-                                <div className="cart__product--info">
-                                    <div className="info-item">
-                                        <p>Availability</p>
-                                        <p>In Stock</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <p>Color</p>
-                                        <p>Blue</p>
-                                    </div>
+                                {cart && cart?.products?.map(p => <CartProduct count={p.count} {...p.product} key={p?.product?._id} />)}
+                                <div className="cart__subtotal">
+                                    Subtotal ({cart && cart.products.reduce((acc, p) => p.count, 0)} items):
+                                    {" "}<span>${cart && cart.cartTotal}</span>
                                 </div>
-                                <div className="cart__product--quantity">
-                                    <select value={`Qty: 3`} name="quantity" id="quantity">
-                                        <option value="0" selected disabled>Qty</option>
-                                        <option value="1">1</option>
-                                        <option value="2" >2</option>
-                                        <option value="3" >3</option>
-                                    </select>
-                                    <button className="delete-product">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="cart__subtotal">Subtotal (2 items): <span>$145.99</span></div>
+                            </>
+                        )}
                     </div>
-                    <div className="subtotal">
-                        <div className="cart__subtotal">Subtotal (2 items): <span>$145.99</span></div>
-                        <button className="proceed-btn btn">Proceed to checkout</button>
-                    </div>
+                    {!cart ? (
+                        <div className="secondary-details">
+                            <h5>You Might Like</h5>
+                        </div>
+                    ) : (
+                        <div className="secondary-details">
+                            <div className="cart__subtotal">Subtotal (2 items):
+                                {" "}<span>${cart && cart.cartTotal}</span>
+                            </div>
+                            <button className="proceed-btn btn">Proceed to checkout</button>
+                        </div>
+                    )}
                 </div>
             </section>
         </>

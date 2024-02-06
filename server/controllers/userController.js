@@ -11,6 +11,7 @@ const Cart = require('../models/Cart.js');
 const Coupon = require('../models/Coupon.js');
 const Order = require('../models/Order.js');
 const uniqid = require('uniqid');
+const { log } = require('console');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
@@ -349,6 +350,40 @@ const userCart = asyncHandler(async (req, res) => {
     }
 });
 
+const addToCart = asyncHandler(async (req, res) => {
+    const { productId, count } = req.body;
+    const { _id } = req.user;
+    validateDbId(_id);
+
+    try {        
+        const newProduct = {
+            product:productId,
+            count: count
+        }
+        console.log(_id, productId);
+        const existCart = await Cart.findOne({ orderBy: _id });
+        if (!existCart) {
+            const newCart = await new Cart({
+                products: [newProduct],
+                orderBy: _id
+            }).save().populate("products.product");
+
+            res.json(newCart);
+        }
+
+        const findProduct = existCart.products.find(p => p.product.toString() === productId);
+        if (findProduct) {
+            findProduct.count = count;
+        } else {
+            existCart.products.push(newProduct);
+        }
+        await existCart.save();
+        res.json(await existCart.populate("products.product"));
+    } catch (error) {
+        throw new Error(error);
+    }
+})
+
 const getUserCart = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     validateDbId(_id);
@@ -494,6 +529,7 @@ module.exports = {
     addToWishlist,
     saveAddress,
     userCart,
+    addToCart,
     getUserCart,
     emptyCart,
     applyCoupon,
