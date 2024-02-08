@@ -1,6 +1,6 @@
 const { createBlog, updateBlog, getBlog, getAllBlogs, deleteBlog, likeBlog, dislikeBlog, uploadBlogImages } = require('../controllers/blogController.js');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware.js');
-const { blogImgResize, uploadPhoto } = require('../middlewares/uploadImages.js');
+const { uploadPhoto } = require('../middlewares/uploadImages.js');
 
 const router = require('express').Router();
 
@@ -16,7 +16,6 @@ router.put(
     authMiddleware,
     isAdmin,
     uploadPhoto.array('images', 2),
-    blogImgResize,
     uploadBlogImages
 );
 

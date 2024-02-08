@@ -34,6 +34,4 @@ const uploadPhoto = multer({
 
 module.exports = {
     uploadPhoto,
-    productImgResize,
-    blogImgResize
 }
