@@ -390,7 +390,8 @@ const removeFromCart = asyncHandler(async (req,res) => {
     const { _id } = req.user;
     validateDbId(_id);
 
-    try {        
+    try {       
+        //or findOneAndUpdate 
         const existCart = await Cart.findOne({ orderBy: _id });
         if (!existCart) {
             throw new Error('Cart doesn\'t exist');
