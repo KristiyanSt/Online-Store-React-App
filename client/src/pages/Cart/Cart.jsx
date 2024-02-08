@@ -20,6 +20,8 @@ function Cart(props) {
         getCartHandler();
     }, [])
 
+    const cartItemsCount = cart ? cart.products.reduce((acc, p) => p.count, 0) : 0;
+
     return (
         <>
             <Meta title={"Shopping cart"} />
@@ -27,7 +29,7 @@ function Cart(props) {
             <section className="cart collection">
                 <div className="container">
                     <div className="cart__products">
-                        {!cart ? (
+                        {cart?.products?.length === 0 ? (
                             <div className="empty-cart">
                                 <img src="/assets/images/empty-cart.png" alt='' />
                                 <div className="empty-cart__desc">
@@ -43,19 +45,19 @@ function Cart(props) {
                                 </div>
                                 {cart && cart?.products?.map(p => <CartProduct count={p.count} {...p.product} key={p?.product?._id} />)}
                                 <div className="cart__subtotal">
-                                    Subtotal ({cart && cart.products.reduce((acc, p) => p.count, 0)} items):
+                                    Subtotal ({cart && cartItemsCount} items):
                                     {" "}<span>${cart && cart.cartTotal}</span>
                                 </div>
                             </>
                         )}
                     </div>
-                    {!cart ? (
+                    {cart?.products?.length === 0 ? (
                         <div className="secondary-details">
                             <h5>You Might Like</h5>
                         </div>
                     ) : (
                         <div className="secondary-details">
-                            <div className="cart__subtotal">Subtotal (2 items):
+                            <div className="cart__subtotal">Subtotal ({cartItemsCount} items):
                                 {" "}<span>${cart && cart.cartTotal}</span>
                             </div>
                             <button className="proceed-btn btn">Proceed to checkout</button>

@@ -10,9 +10,9 @@ router.post('/login-admin', loginAdmin);
 router.post('/forgot-password-token', forgotPasswordToken);
 router.post('/cart', authMiddleware, userCart);
 router.post('/add-to-cart', authMiddleware, addToCart);
-router.post('/remove-from-cart', authMiddleware, removeFromCart);
 router.post('/apply-coupon', authMiddleware, applyCoupon);
 router.post('/create-order', authMiddleware, createOrder);
+router.post('/wishlist', authMiddleware, addToWishlist);
 
 router.get('/all-users', getUsers);
 router.get('/refresh', handleRefreshToken);
@@ -25,7 +25,7 @@ router.get('/:id', authMiddleware, isAdmin, getUser);
 router.delete('/delete/:id', deleteUser);
 router.delete('/empty-cart', authMiddleware, emptyCart);
 
-router.put('/wishlist', authMiddleware, addToWishlist);
+router.put('/remove-from-cart', authMiddleware, removeFromCart);
 router.put('/edit', authMiddleware, updateUser);
 router.put('/update-order/:id',authMiddleware, isAdmin, updateOrderStatus);
 router.put('/block/:id', authMiddleware, isAdmin, blockUser);

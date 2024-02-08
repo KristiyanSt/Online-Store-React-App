@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
+import { useSelector } from 'react-redux';
 
 function Header(props) {
+    const cart = useSelector(state => state.auth?.cart);
+    const cartItemsCount = cart ? cart.products.reduce((acc, p) => p.count, 0) : 0;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +61,16 @@ function Header(props) {
                                         <Link to="/cart" className="header-top__link">
                                             <img className="header-top__link--img" src="/assets/images/cart-arrow-down-solid.svg" alt="cart" />
                                             <p className="header-top__link--text">
-                                                <span className="header-top__link--text--zero">0</span> <br /> $0.00
+                                                <span className="header-top__link--text--zero">{cartItemsCount < 11 ? cartItemsCount : "10+"}</span> <br />
+                                                ${cart ? (
+                                                    cart.cartTotal.toString().length > 3 ? (
+                                                        cart.cartTotal.toString().substr(0, 3) + "..."
+                                                    ) : (
+                                                        cart.cartTotal
+                                                    )
+                                                ) : (
+                                                    "00.00"
+                                                )}
                                             </p>
                                         </Link>
                                     </li>

@@ -284,10 +284,12 @@ const addToWishlist = asyncHandler(async (req, res) => {
         const hasAdded = user.wishlist.some(id => id.toString() === productId);
         if (hasAdded) {
             user.wishlist.pull({ _id: productId });
-            return res.json(await user.save());
+            await user.save()
+            return res.json(await user.populate("wishlist"));
         } else {
             user.wishlist.push({ _id: productId });
-            return res.json(await user.save());
+            await user.save()
+            return res.json(await user.populate("wishlist"));
         }
     } catch (error) {
         throw new Error(error);
@@ -368,12 +370,12 @@ const addToCart = asyncHandler(async (req, res) => {
                 orderBy: _id
             }).save().populate("products.product");
 
-            res.json(newCart);
+            return res.json(newCart);
         }
 
         const findProduct = existCart.products.find(p => p.product.toString() === productId);
         if (findProduct) {
-            findProduct.count = count;
+            findProduct.count += count;
         } else {
             existCart.products.push(newProduct);
         }
@@ -393,10 +395,10 @@ const removeFromCart = asyncHandler(async (req,res) => {
         if (!existCart) {
             throw new Error('Cart doesn\'t exist');
         }
-        
+
         const findProduct = existCart.products.find(p => p.product.toString() === productId);
         if (findProduct) {
-            await existCart.products.pull({_id: findProduct._id});
+            existCart.products.pull({_id: findProduct._id});
         }
         await existCart.save();
         res.json(await existCart.populate("products.product"));

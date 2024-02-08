@@ -2,7 +2,7 @@ import React from 'react';
 import './SignIn.css';
 import Meta from '../../components/Meta/Meta.jsx';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,8 @@ const signInSchema = object({
 
 function SignIn(props) {
     const dispatch = useDispatch();
-
+    const location = useLocation();
+    console.log(location);
     const formik = useFormik({
         initialValues: {
             email: '',

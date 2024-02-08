@@ -12,8 +12,8 @@ function CartProduct({
     count
 }) {
     const dispatch = useDispatch();
+    
     const removeFromCartHandler =  (productId) => {
-        console.log(productId)
         dispatch(removeFromCart(productId))
     }
 

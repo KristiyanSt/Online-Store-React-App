@@ -18,33 +18,33 @@ const signIn = async (userData) => {
 }
 
 const getWishlist = async () => {
-    const response = await axios.get(`${BASE_URL}user/wishlist`, config);
+    const response = await axios.get(`${BASE_URL}user/wishlist`, config());
 
     if (response.data) {
         return response.data;
     }
 }
 const addToWishlist = async (productId) => {
-    const response = await axios.put(`${BASE_URL}user/wishlist`, { productId }, config);
+    const response = await axios.post(`${BASE_URL}user/wishlist`, { productId }, config());
 
     if (response.data) {
         return response.data;
     }
 }
 const getCart = async () => {
-    const response = await axios.get(`${BASE_URL}user/cart`, config);
+    const response = await axios.get(`${BASE_URL}user/cart`, config());
     if (response.data) {
         return response.data;
     }
 }
 const addToCart = async (productData) => {
-    const response = await axios.post(`${BASE_URL}user/add-to-cart`, productData, config);
+    const response = await axios.post(`${BASE_URL}user/add-to-cart`, productData, config());
     if (response.data) {
         return response.data;
     }
 }
 const removeFromCart = async (productData) => {
-    const response = await axios.post(`${BASE_URL}user/remove-from-cart`, { productId: productData }, config);
+    const response = await axios.put(`${BASE_URL}user/remove-from-cart`, { productId: productData }, config());
     if (response.data) {
         return response.data;
     }

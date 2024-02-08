@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import { Rating } from 'react-simple-star-rating';
 import './Product.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import ReactImageZoom from 'react-image-zoom';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.jsx';
@@ -15,14 +15,21 @@ import { getSingleProduct } from '../../redux/products/productSlice.js';
 function Product(props) {
     const productId = useParams().id;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const product = useSelector(state => state.product.singleProduct);
+    const user = useSelector(state => state.auth.user);
+
     useEffect(() => {
         dispatch(getSingleProduct(productId));
     }, [productId]);
 
-    const addToWishlistHandler = (ev, productId) => {
-        ev.preventDefault();
-        dispatch(addToWishlist(productId))
+    const addToWishlistHandler = (productId) => {
+        if(user) {
+            dispatch(addToWishlist(productId))
+        } else {
+            navigate('/signin')
+        }
     }
     const addToCartHandler = (productData) => {
         dispatch(addToCart(productData))
@@ -191,7 +198,7 @@ function Product(props) {
                             </select>
                         </div>
                         <div className="main-product__action-buttons">
-                            <button onClick={(ev) => addToWishlistHandler(ev, productId)} className="proceed-btn btn">Add to wishlist</button>
+                            <button onClick={() => addToWishlistHandler(productId)} className="proceed-btn btn">Add to wishlist</button>
                             <button onClick={() => addToCartHandler({count: 1, productId})}className="proceed-btn btn">Add to cart</button>
                         </div>
                     </div>

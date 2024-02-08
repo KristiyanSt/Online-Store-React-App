@@ -42,6 +42,9 @@
     display: flex;
     gap: 0.2rem;
 }
+.header-top__links li:nth-of-type(4) .header-top__link {
+    width: 98px;
+}
 
 .header-top__link {
     display: flex;

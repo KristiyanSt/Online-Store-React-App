@@ -16,7 +16,6 @@ function Wishlist(props) {
     }
     const removeFromWishlist = (productId) => {
         dispatch(addToWishlist(productId));
-        dispatch(getUserWishlist()); //TODO fix api endpoint to point at user controller
     }
     useEffect(() => {
         getWishlist();
@@ -30,7 +29,7 @@ function Wishlist(props) {
             <Breadcrumb title="Wishlist" />
             <div className="wishlist">
                 <div className="container">
-                    {wishlist?.map(p => 
+                    {wishlist && wishlist?.map(p => 
                         <div className="wishlist-card" key={p._id}>
                         <img onClick={() => removeFromWishlist(p._id)} className="close-btn" src="/assets/images/cross.png" alt="cross" />
                         <div className="image__wrapper">
