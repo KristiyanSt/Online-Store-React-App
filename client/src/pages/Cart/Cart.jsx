@@ -29,7 +29,7 @@ function Cart(props) {
             <section className="cart collection">
                 <div className="container">
                     <div className="cart__products">
-                        {cart?.products?.length === 0 ? (
+                        {cart?.products?.length === 0  || !cart ? (
                             <div className="empty-cart">
                                 <img src="/assets/images/empty-cart.png" alt='' />
                                 <div className="empty-cart__desc">
@@ -51,7 +51,7 @@ function Cart(props) {
                             </>
                         )}
                     </div>
-                    {cart?.products?.length === 0 ? (
+                    {cart?.products?.length === 0  || !cart ? (
                         <div className="secondary-details">
                             <h5>You Might Like</h5>
                         </div>

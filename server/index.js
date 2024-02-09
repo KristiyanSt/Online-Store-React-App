@@ -20,7 +20,7 @@ const morgan = require('morgan');
 
 dbConnect();
 app.use(cors({
-    origin: "https://storish.onrender.com"
+    origin: ["https://storish.onrender.com","http://localhost:3000"]
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
