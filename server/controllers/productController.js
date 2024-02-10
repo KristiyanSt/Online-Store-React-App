@@ -6,6 +6,9 @@ const { validateDbId } = require("../utils/validateDbId.js");
 const cloudinaryUploadImg = require('../utils/cloudinary.js');
 const fs = require('fs');
 const { promisify } = require('util');
+const sharp = require("sharp");
+const path = require('path');
+sharp.cache(false);
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
@@ -136,10 +139,17 @@ const uploadProductImages = asyncHandler(async (req, res) => {
         const urls = [];
         const files = req.files;
         for (const file of files) {
-            const { path } = file;
-            const newpath = await uploader(path);
+            await sharp(file.path)
+            .resize(300, 300)
+            .toFormat('jpeg')
+            .jpeg({ quality: 90 })
+            .toFile(`public/images/products/${file.filename}`);
+
+            const newpath = await uploader(path.join(__dirname, `../public/images/products/${file.filename}`));
             urls.push(newpath);
-            fs.unlinkSync(path);
+            
+            await fs.promises.unlink(file.path);
+            await fs.promises.unlink(path.join(__dirname, `../public/images/products/${file.filename}`));
         }
         const updatedProduct = await Product.findByIdAndUpdate(id,
             {

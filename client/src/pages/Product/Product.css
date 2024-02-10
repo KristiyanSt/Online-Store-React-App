@@ -8,26 +8,25 @@
         gap: 20px;
     }
 
-    .main-image>div div:last-child {
+    
+    .main-image img {
+        display: block;
+        object-fit: cover;
+        background-color: var(--color-white);
+    }
+    
+    .main-image > div div:last-child {
         z-index: 100;
         border: 1px solid var(--color-heading-shade);
         box-shadow: 2px 4px 16px rgba(0, 0, 0, .16);
     }
-
-    .main-image img {
-        display: block;
-        object-fit: cover;
-    }
-
-    .images-wrapper {
+    .images {
         min-width: 600px;
         position: relative;
     }
-
-    .imagesWrapper {
-        width: 600px;
+    .images-wrapper {
+        width:600px
     }
-
     .images-wrapper__text {
         text-align: center;
         font-size: 14px;
