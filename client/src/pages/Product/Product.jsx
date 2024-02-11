@@ -84,7 +84,7 @@ function Product(props) {
                                     offset={{ horizontal: "10" }}
                                     scale={1.4}
                                     // zoomLensStyle={"width: 100px; height: 100px; background-color: black;"}
-                                    img={product ? product?.images[1]?.url : " "}
+                                    img={product ? product?.images[0]?.url : " "}
                                 />
                             </div>
                             <p className="images-wrapper__text">Roll over the image to zoom in</p>

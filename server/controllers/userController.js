@@ -368,9 +368,9 @@ const addToCart = asyncHandler(async (req, res) => {
             const newCart = await new Cart({
                 products: [newProduct],
                 orderBy: _id
-            }).save().populate("products.product");
+            }).save();
 
-            return res.json(newCart);
+            return res.json(await newCart.populate("products.product"));
         }
 
         const findProduct = existCart.products.find(p => p.product.toString() === productId);

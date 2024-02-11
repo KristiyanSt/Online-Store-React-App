@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 
 function Header(props) {
     const cart = useSelector(state => state.auth?.cart);
-    const cartItemsCount = cart ? cart.products.reduce((acc, p) => p.count, 0) : 0;
-
+    const cartItemsCount = cart ? cart.products.reduce((acc, p) => acc += p.count, 0) : 0;
+    
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {

@@ -145,11 +145,12 @@ const uploadProductImages = asyncHandler(async (req, res) => {
             .jpeg({ quality: 90 })
             .toFile(`public/images/products/${file.filename}`);
 
-            const newpath = await uploader(path.join(__dirname, `../public/images/products/${file.filename}`));
-            urls.push(newpath);
-            
+            const resizedImagePath = path.join(__dirname, `../public/images/products/${file.filename}`);
+            const cloudinaryPath = await uploader(resizedImagePath);
+            urls.push(cloudinaryPath);
+
             await fs.promises.unlink(file.path);
-            await fs.promises.unlink(path.join(__dirname, `../public/images/products/${file.filename}`));
+            await fs.promises.unlink(resizedImagePath);
         }
         const updatedProduct = await Product.findByIdAndUpdate(id,
             {

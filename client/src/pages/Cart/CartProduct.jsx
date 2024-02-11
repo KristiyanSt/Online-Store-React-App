@@ -22,7 +22,7 @@ function CartProduct({
             <input className="select-item" type="checkbox" />
             <div className="cart__product--image-wrapper">
                 <img
-                    src={images[0].url}
+                    src={images[0]?.url}
                     alt=""
                 />
             </div>
