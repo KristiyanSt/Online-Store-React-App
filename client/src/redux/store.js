@@ -7,7 +7,7 @@ const store = configureStore({
         auth: authReducer,
         product: productReducer
     },
-    devTools: false
+    devTools: process.env.NODE_ENV === "production" ? false : true
 })
 
 export default store;

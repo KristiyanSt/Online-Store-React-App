@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCart } from '../../redux/user/userSlice.js';
 
 function Header(props) {
+    const dispatch = useDispatch();
+
     const cart = useSelector(state => state.auth?.cart);
+    const user = useSelector(state => state.auth?.user);
     const cartItemsCount = cart ? cart.products.reduce((acc, p) => acc += p.count, 0) : 0;
-    
+
+    useEffect(()=>{
+        if(user !== null) {
+            dispatch(getCart());
+        }
+    },[user]);
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {

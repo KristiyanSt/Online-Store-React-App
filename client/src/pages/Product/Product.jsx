@@ -31,7 +31,11 @@ function Product(props) {
         }
     }
     const addToCartHandler = (productData) => {
-        dispatch(addToCart(productData))
+        if (user) {
+            dispatch(addToCart(productData))
+        } else {
+            navigate('/signin')
+        }
     }
 
 

@@ -5,22 +5,37 @@ import './Cart.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, removeFromCart } from '../../redux/user/userSlice.js';
 import CartProduct from './CartProduct.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Cart(props) {
 
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector(state => state.auth?.cart);
 
     const getCartHandler = () => {
         dispatch(getCart());
     }
+
+    const checkoutHandler = () => {
+        fetch('http://localhost:5000/api/user/create-order', {
+            method: "post",
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            },
+            body: JSON.stringify({
+                products: cart.products
+            })
+        }).then(res => res.json())
+            .then(({ url }) => window.location = url)
+    }
+
     useEffect(() => {
         getCartHandler();
     }, [])
 
-    const cartItemsCount = cart ? cart.products.reduce((acc, p) => p.count, 0) : 0;
+    const cartItemsCount = cart ? cart.products.reduce((acc, p) => acc += p.count, 0) : 0;
 
     return (
         <>
@@ -29,7 +44,7 @@ function Cart(props) {
             <section className="cart collection">
                 <div className="container">
                     <div className="cart__products">
-                        {cart?.products?.length === 0  || !cart ? (
+                        {cart?.products?.length === 0 || !cart ? (
                             <div className="empty-cart">
                                 <img src="/assets/images/empty-cart.png" alt='' />
                                 <div className="empty-cart__desc">
@@ -51,7 +66,7 @@ function Cart(props) {
                             </>
                         )}
                     </div>
-                    {cart?.products?.length === 0  || !cart ? (
+                    {cart?.products?.length === 0 || !cart ? (
                         <div className="secondary-details">
                             <h5>You Might Like</h5>
                         </div>
@@ -60,7 +75,7 @@ function Cart(props) {
                             <div className="cart__subtotal">Subtotal ({cartItemsCount} items):
                                 {" "}<span>${cart && cart.cartTotal}</span>
                             </div>
-                            <button className="proceed-btn btn">Proceed to checkout</button>
+                            <button onClick={checkoutHandler} className="proceed-btn btn">Proceed to checkout</button>
                         </div>
                     )}
                 </div>

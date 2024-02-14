@@ -11,7 +11,7 @@ const Cart = require('../models/Cart.js');
 const Coupon = require('../models/Coupon.js');
 const Order = require('../models/Order.js');
 const uniqid = require('uniqid');
-const { log } = require('console');
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
@@ -357,9 +357,9 @@ const addToCart = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     validateDbId(_id);
 
-    try {        
+    try {
         const newProduct = {
-            product:productId,
+            product: productId,
             count: count
         }
 
@@ -385,12 +385,12 @@ const addToCart = asyncHandler(async (req, res) => {
         throw new Error(error);
     }
 })
-const removeFromCart = asyncHandler(async (req,res) => {
-    const { productId} = req.body;
+const removeFromCart = asyncHandler(async (req, res) => {
+    const { productId } = req.body;
     const { _id } = req.user;
     validateDbId(_id);
 
-    try {       
+    try {
         //or findOneAndUpdate 
         const existCart = await Cart.findOne({ orderBy: _id });
         if (!existCart) {
@@ -399,7 +399,7 @@ const removeFromCart = asyncHandler(async (req,res) => {
 
         const findProduct = existCart.products.find(p => p.product.toString() === productId);
         if (findProduct) {
-            existCart.products.pull({_id: findProduct._id});
+            existCart.products.pull({ _id: findProduct._id });
         }
         await existCart.save();
         res.json(await existCart.populate("products.product"));
@@ -450,52 +450,80 @@ const applyCoupon = asyncHandler(async (req, res) => {
 });
 
 const createOrder = asyncHandler(async (req, res) => {
-    const { COD, couponApplied } = req.body;
-    const { _id } = req.user;
-    validateDbId(_id);
-
-    if (!COD) {
-        throw new Error('Order failed');
-    }
-
     try {
-        const user = await User.findById(_id);
-        const cart = await Cart.findOne({ orderBy: user._id });
+        const { products } = req.body;
 
-        let finalAmount = 0;
-        if (couponApplied && cart.totalAfterDiscount) {
-            finalAmount = cart.totalAfterDiscount;
-        } else {
-            finalAmount = cart.cartTotal;
-        }
-
-        let newOrder = await new Order({
-            products: cart.products,
-            paymentIntent: {
-                id: uniqid(),
-                method: "COD",
-                amount: finalAmount,
-                status: "Cash on delivery",
-                created: Date.now(),
-                currency: "usd"
-            },
-            orderBy: user._id,
-            orderStatus: "Cash on delivery"
-        }).save();
-
-        const update = cart.products.map((item) => {
-            return {
-                updateOne: {
-                    filter: { _id: item.product._id },
-                    update: { $inc: { quantity: -item.count, sold: +item.count } }
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            line_items: products.map(p => {
+                return {
+                    price_data: {
+                        currency: 'bgn',
+                        product_data: {
+                            name: p.product.title,
+                            images: p.product.images.map(img => img.url)
+                        },
+                        unit_amount: p.product.price * 100
+                    },
+                    quantity: p.count
                 }
-            }
+            }),
+            success_url: "http://localhost:3000/cart",
+            cancel_url: "http://localhost:3000/cart"
+            // discount
         });
-        const updated = await Product.bulkWrite(update, {});
-        res.json({ message: "success" });
+
+        res.json({ url: session.url });
     } catch (error) {
         throw new Error(error);
     }
+    // const { COD, couponApplied } = req.body;
+    // const { _id } = req.user;
+    // validateDbId(_id);
+
+    // if (!COD) {
+    //     throw new Error('Order failed');
+    // }
+
+    // try {
+    //     const user = await User.findById(_id);
+    //     const cart = await Cart.findOne({ orderBy: user._id });
+
+    //     let finalAmount = 0;
+    //     if (couponApplied && cart.totalAfterDiscount) {
+    //         finalAmount = cart.totalAfterDiscount;
+    //     } else {
+    //         finalAmount = cart.cartTotal;
+    //     }
+
+    //     let newOrder = await new Order({
+    //         products: cart.products,
+    //         paymentIntent: {
+    //             id: uniqid(),
+    //             method: "COD",
+    //             amount: finalAmount,
+    //             status: "Cash on delivery",
+    //             created: Date.now(),
+    //             currency: "usd"
+    //         },
+    //         orderBy: user._id,
+    //         orderStatus: "Cash on delivery"
+    //     }).save();
+
+    //     const update = cart.products.map((item) => {
+    //         return {
+    //             updateOne: {
+    //                 filter: { _id: item.product._id },
+    //                 update: { $inc: { quantity: -item.count, sold: +item.count } }
+    //             }
+    //         }
+    //     });
+    //     const updated = await Product.bulkWrite(update, {});
+    //     res.json({ message: "success" });
+    // } catch (error) {
+    //     throw new Error(error);
+    // }
 
 });
 
