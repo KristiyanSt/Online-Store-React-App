@@ -3,34 +3,27 @@ import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCart } from '../../redux/user/userSlice.js';
+import CustomDropdown from '../CustomDropdown/CustomDropdown.jsx';
+
+const CATEGORIES = ["Electronics", "Music", "Healthcare", "Office"]
 
 function Header(props) {
     const dispatch = useDispatch();
+
+    const [selectedCategory, setSelectedCategory] = useState("Shop Categories");
+    const handleSelectedCategory = (categoryValue) => {
+        setSelectedCategory(categoryValue)
+    }
 
     const cart = useSelector(state => state.auth?.cart);
     const user = useSelector(state => state.auth?.user);
     const cartItemsCount = cart ? cart.products.reduce((acc, p) => acc += p.count, 0) : 0;
 
-    useEffect(()=>{
-        if(user !== null) {
+    useEffect(() => {
+        if (user !== null) {
             dispatch(getCart());
         }
-    },[user]);
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const closeDropdown = () => {
-        setIsOpen(false);
-    };
-
-    const handleOptionClick = (option) => {
-        console.log(`Selected option: ${option}`);
-        closeDropdown();
-    };
+    }, [user]);
 
     return (
         <>
@@ -90,20 +83,12 @@ function Header(props) {
                     </section>
                     <section className="header-bottom">
                         <div className="header-bottom__wrapper">
-                            <div className="dropdown" onClick={toggleDropdown}>
-                                <button className="dropdown__button" >
-                                    Shop Categories
-                                </button>
-                                <img className="dropdown__icon" src="/assets/images/down-arrow-svgrepo-com.svg" alt="dropdown-icon" />
-
-                                {isOpen && (
-                                    <ul className="dropdown__menu">
-                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 1')}><Link>Option 1</Link></li>
-                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 2')}><Link>Option 2</Link></li>
-                                        <li className="dropdown__link" onClick={() => handleOptionClick('Option 3')}><Link>Option 3</Link></li>
-                                    </ul>
-                                )}
-                            </div>
+                            <CustomDropdown
+                                title={null}
+                                selected={selectedCategory}
+                                options={CATEGORIES}
+                                handleOption={handleSelectedCategory}
+                            />
                             <div className="header-bottom__menu">
                                 <nav className="header-bottom__nav">
                                     <ul className="header-bottom__links">

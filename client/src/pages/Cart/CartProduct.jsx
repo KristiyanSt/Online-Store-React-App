@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Cart.css'
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from '../../redux/user/userSlice.js';
+import CustomDropdown from '../../components/CustomDropdown/CustomDropdown.jsx';
 function CartProduct({
     _id,
     images,
@@ -12,8 +13,12 @@ function CartProduct({
     count
 }) {
     const dispatch = useDispatch();
-    
-    const removeFromCartHandler =  (productId) => {
+    const [selectedQuantity, setSelectedQuantity] = useState(count);
+
+    const handleSelectedQuantity = (quantityValue) => {
+        setSelectedQuantity(quantityValue)
+    }
+    const removeFromCartHandler = (productId) => {
         dispatch(removeFromCart(productId))
     }
 
@@ -33,7 +38,7 @@ function CartProduct({
                     </h5>
                     <p className="cart__product--price">
                         ${price}
-                        </p>
+                    </p>
                 </div>
                 <div className="cart__product--info">
                     <div className="info-item">
@@ -46,13 +51,13 @@ function CartProduct({
                     </div>
                 </div>
                 <div className="cart__product--quantity">
-                    <select value={`Qty: 3`} name="quantity" id="quantity">
-                        <option value="0" selected disabled>Qty</option>
-                        <option value="1">1</option>
-                        <option value="2" >2</option>
-                        <option value="3" >3</option>
-                    </select>
-                    <button onClick={() => removeFromCartHandler(_id)}className="delete-product">Remove</button>
+                    <CustomDropdown
+                        title={`Qty: ${selectedQuantity}`}
+                        selected={selectedQuantity}
+                        options={Array.from({ length: quantity }).map((x, index) => index + 1)}
+                        handleOption={handleSelectedQuantity}
+                    />
+                    <button onClick={() => removeFromCartHandler(_id)} className="delete-product">Remove</button>
                 </div>
             </div>
         </div>
