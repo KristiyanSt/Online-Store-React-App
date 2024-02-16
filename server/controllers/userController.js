@@ -375,7 +375,7 @@ const addToCart = asyncHandler(async (req, res) => {
 
         const findProduct = existCart.products.find(p => p.product.toString() === productId);
         if (findProduct) {
-            findProduct.count += count;
+            findProduct.count = count;
         } else {
             existCart.products.push(newProduct);
         }

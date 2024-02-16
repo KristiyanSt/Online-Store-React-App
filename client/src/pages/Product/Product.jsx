@@ -10,18 +10,24 @@ import Meta from '../../components/Meta/Meta.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, addToCart } from '../../redux/user/userSlice.js';
 import { getSingleProduct } from '../../redux/products/productSlice.js';
+import CustomDropdown from '../../components/CustomDropdown/CustomDropdown.jsx';
 
 function Product(props) {
     const productId = useParams().id;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const product = useSelector(state => state.product.singleProduct);
-    const user = useSelector(state => state.auth.user);
+    const product = useSelector(state => state.product?.singleProduct);
+    const user = useSelector(state => state.auth?.user);
+    const cart = useSelector(state => state.auth?.cart);
+    const wishlist = useSelector(state => state.auth?.wishlist);
 
-    useEffect(() => {
-        dispatch(getSingleProduct(productId));
-    }, [productId]);
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [hasOrdered, setHasOrdered] = useState(true);
+
+    const handleSelectedQuantity = (quantityValue) => {
+        setSelectedQuantity(quantityValue);
+    }
 
     const addToWishlistHandler = (productId) => {
         if (user) {
@@ -37,10 +43,9 @@ function Product(props) {
             navigate('/signin')
         }
     }
+    const isAlreadyInCart = cart?.products?.find(p => p.product._id === productId);
+    const isAlreadyInWishlist = wishlist?.find(p => p._id === productId);
 
-
-
-    const [hasOrdered, setHasOrdered] = useState(true);
     const imagesWrapperRef = useRef();
     const productDetailsRef = useRef();
     // const headerRef = useRef();
@@ -72,6 +77,9 @@ function Product(props) {
         }
     }, []);
 
+    useEffect(() => {
+        dispatch(getSingleProduct(productId));
+    }, [productId]);
     return (
         <>
             <Breadcrumb title={product?.title} />
@@ -191,17 +199,28 @@ function Product(props) {
                             {product?.price}
                             <div className="top-symbol">00</div>
                         </div>
-                        <div className="main-product__quantity">
-                            <select value={`Qty: 3`} name="quantity" id="quantity">
-                                <option value="0" selected disabled>Qty</option>
-                                <option value="1">1</option>
-                                <option value="2" >2</option>
-                                <option value="3" >3</option>
-                            </select>
-                        </div>
+                        {!isAlreadyInCart && (
+                            <CustomDropdown
+                                title={'Quantity'}
+                                selected={selectedQuantity}
+                                options={Array.from({ length: product?.quantity }).map((x, index) => index + 1)}
+                                handleOption={handleSelectedQuantity}
+                            />
+                        )
+                        }
                         <div className="main-product__action-buttons">
-                            <button onClick={() => addToWishlistHandler(productId)} className="proceed-btn btn">Add to wishlist</button>
-                            <button onClick={() => addToCartHandler({ count: 1, productId })} className="proceed-btn btn">Add to cart</button>
+                            {!isAlreadyInWishlist ? (
+                                <button onClick={() => addToWishlistHandler(productId)} className="proceed-btn btn">Add to wishlist</button>
+                            ): (
+                                <p>Added to <Link to="/wishlist">Wishlist</Link></p>
+                            )
+                            }
+                            {!isAlreadyInCart ? (
+                                <button onClick={() => addToCartHandler({ count: selectedQuantity, productId })} className="proceed-btn btn">Add to cart</button>
+                            ) : (
+                                <p>{isAlreadyInCart.count} added to <Link to="/cart">Cart</Link></p>
+                            )
+                            }
                         </div>
                     </div>
                 </div>

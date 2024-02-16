@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Cart.css'
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from '../../redux/user/userSlice.js';
+import { addToCart, removeFromCart } from '../../redux/user/userSlice.js';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown.jsx';
 function CartProduct({
     _id,
@@ -15,8 +15,13 @@ function CartProduct({
     const dispatch = useDispatch();
     const [selectedQuantity, setSelectedQuantity] = useState(count);
 
+    const updateQuantityInCart = (productData) => {
+        dispatch(addToCart(productData))
+    }
+
     const handleSelectedQuantity = (quantityValue) => {
-        setSelectedQuantity(quantityValue)
+        setSelectedQuantity(quantityValue);
+        updateQuantityInCart({ count: quantityValue, productId: _id });
     }
     const removeFromCartHandler = (productId) => {
         dispatch(removeFromCart(productId))
@@ -52,7 +57,7 @@ function CartProduct({
                 </div>
                 <div className="cart__product--quantity">
                     <CustomDropdown
-                        title={`Qty: ${selectedQuantity}`}
+                        title={'Qty'}
                         selected={selectedQuantity}
                         options={Array.from({ length: quantity }).map((x, index) => index + 1)}
                         handleOption={handleSelectedQuantity}

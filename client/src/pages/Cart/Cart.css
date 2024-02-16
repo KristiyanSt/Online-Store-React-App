@@ -123,14 +123,14 @@
         gap: 45px;
     }
 
-    .cart__product--quantity button {
+    .cart__product--quantity .delete-product {
         background-color: transparent;
         color: var(--color-link);
         cursor: pointer;
         font-weight: 500;
     }
 
-    .cart__product--quantity button:hover {
+    .cart__product--quantity .delete-product:hover {
         text-decoration: underline;
     }
 

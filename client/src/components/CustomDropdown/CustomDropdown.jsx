@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './CustomDropdown.css';
 
@@ -9,7 +9,8 @@ function CustomDropdown({
     handleOption
 }) {
     const [isOpen, setIsOpen] = useState(false);
-    console.log(options, selected);
+    const dropdownRef = useRef();
+
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     }
@@ -21,9 +22,26 @@ function CustomDropdown({
         handleOption(option);
     }
 
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                closeDropdown();
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
     return (
-        <div className="dropdown" onClick={toggleDropdown}>
-            <button className="dropdown__button" >
+        <div
+            ref={dropdownRef}
+            className={`dropdown ${isOpen ? 'dropdown-active' : ""}`}
+            onClick={toggleDropdown}
+        >
+            <button className="dropdown__button">
                 {title ? (`${title}: ${selected}`) : (selected)}
             </button>
             <img className="dropdown__icon" src="/assets/images/down-arrow-svgrepo-com.svg" alt="dropdown-icon" />
@@ -32,9 +50,10 @@ function CustomDropdown({
                     {options.map(option => {
                         return (
                             <li
-                                className={`dropdown__link ${option === selected ? 'selected' : ""}`}
+                                key={option}
+                                className={`dropdown__option ${option === selected ? 'selected' : ""}`}
                                 onClick={() => handleOptionClick(option)}>
-                                <Link>{option}</Link>
+                                {option}
                             </li>
                         )
                     }
